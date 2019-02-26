@@ -1,1 +1,10 @@
 Django==2.1.7
+django-allauth==0.38.0
+oauthlib>=3.0
+python3-openid>=3.0.8
+requests-oauthlib>=0.3.0
+certifi>=2017.4.17
+urllib3<1.25,>=1.21.1
+idna<2.9,>=2.5
+chardet<3.1.0,>=3.0.2
+defusedxml
