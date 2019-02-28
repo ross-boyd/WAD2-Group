@@ -33,7 +33,7 @@
             <li><a href="{% url 'account_logout' %}"> Log out</a></li>
             {% else %}
             <li><a href="{% url 'account_signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="{% provider_login_url 'google' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="{% url 'account_login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             {% endif %}
         </ul>
     </div>
