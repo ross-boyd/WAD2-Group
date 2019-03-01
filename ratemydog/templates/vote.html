@@ -1,20 +1,30 @@
 {% extends "base.html" %}
-{% load staticfiles%}
+{% load staticfiles %}
 
 {% block content %}
 
-<br />
-<div style="width:60%; margin:0 auto;">
-    <!-- w3 schools -->
-    <div class="slidecontainer">
-        <style data="thumbStyle" type="text/css">
-        </style>
-        
-        <input type="range" min="1" max="100" value="50" class="slider" id="rating">
-        <p>Value: <span id="demoOutput"></span>/10</p>
+<div class="vote-container">
+    <div class="another-container">
+        <div class="img-move">
+            PREVIOUS
+        </div>
+        <div class="image-container">
+            <img src="{% static 'bestboy/img/dog1.jpg' %}" style="display:block; margin-left:auto; margin-right:auto;">
+        </div>
+        <div class="img-move">
+            NEXT
+        </div>
     </div>
-    <!-- w3 schools -->
+    <div class="slidecontainer">
+            <style data="thumbStyle" type="text/css">
+            </style>
+            
+            <input type="range" min="1" max="100" value="50" class="slider" id="rating">
+            <p>Value: <span id="demoOutput"></span>/10</p>
+    </div>
 </div>
+
+
 
 <script>
 var slider = document.getElementById("rating");
