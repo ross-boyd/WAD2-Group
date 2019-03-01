@@ -7,6 +7,7 @@ def index(request):
     return render(request, 'home.html')
 
 
-@login_required
+# @login_required
+# disabled for testing
 def vote(request):
     return render(request, 'vote.html')
