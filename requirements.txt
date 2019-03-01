@@ -8,3 +8,5 @@ urllib3<1.25,>=1.21.1
 idna<2.9,>=2.5
 chardet<3.1.0,>=3.0.2
 defusedxml
+Pillow
+psycopg2
