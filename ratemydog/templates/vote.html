@@ -3,24 +3,37 @@
 
 {% block content %}
 
-
+<br />
 <div style="width:60%; margin:0 auto;">
     <!-- w3 schools -->
     <div class="slidecontainer">
+        <style data="thumbStyle" type="text/css">
+        </style>
+        
         <input type="range" min="1" max="100" value="50" class="slider" id="rating">
-        <p>Value: <span id="demoOut"></span>/10</p>
+        <p>Value: <span id="demoOutput"></span>/10</p>
     </div>
     <!-- w3 schools -->
 </div>
 
 <script>
-    var slider = document.getElementById("rating");
-    var output = document.getElementById("demoOut");
-    output.innerHTML = slider.value / 10;
-    slider.oninput = function () {
-        output.innerHTML = this.value / 10;
-    }
-/*w3 schools */
+var slider = document.getElementById("rating");
+var output = document.getElementById("demoOutput");
+var style = document.querySelector('[data="thumbStyle"]');
+
+setData(slider.value/10);
+
+slider.oninput = function() {
+    setData(this.value/10);
+}
+
+function setData(x){
+    output.innerHTML = x;
+    var size = 75+x*5;
+    style.innerHTML = ".slider::-moz-range-thumb { width: " + size  + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;} .slider::-webkit-slider-thumb { width: " + size  + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;}";
+    
+}
+
 </script>
 
 

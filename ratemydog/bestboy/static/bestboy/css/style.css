@@ -59,18 +59,24 @@ opacity: 1; /* Fully shown on mouse-over */
 .slider::-webkit-slider-thumb {
 -webkit-appearance: none;
 appearance: none;
-width: 25px;
-height: 25px;
+width: 75px;
+height: 75px;
 border-radius: 50%; 
-background: url("{% static 'bestboy/img/slider_dog.gif' %}");
+background: url('../img/slider_dog.gif') no-repeat center center;
 cursor: pointer;
+background-position: center center; /* First value is from left and second is from top. You can use use number as well*/
+background-repeat: no-repeat;
+background-size: cover;
 }
 
 .slider::-moz-range-thumb {
-width: 25px;
-height: 25px;
+width: 75px;
+height: 75px;
 border-radius: 50%;
-background: url("{% static 'bestboy/img/slider_dog.gif' %}");
+background: url('../img/slider_dog.gif') no-repeat center center;
 cursor: pointer;
+background-position: center center; /* First value is from left and second is from top. You can use use number as well*/
+background-repeat: no-repeat;
+background-size: cover;
 }
 /*w3 schools */
