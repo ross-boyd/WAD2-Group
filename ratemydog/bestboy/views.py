@@ -7,6 +7,10 @@ def index(request):
     return render(request, 'home.html')
 
 
+def home(request):
+    return render(request, 'home.html')
+
+
 # @login_required
 # disabled for testing
 def vote(request):
