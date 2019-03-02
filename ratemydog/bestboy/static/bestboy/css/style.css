@@ -79,34 +79,3 @@ background-size: cover;
 border: 10px;
 }
 /*w3 schools */
-
-.slidecontainer {
-    width: auto;
-    padding: 3%;
-    margin: 0 auto;
-    height: auto;
-}
-.vote-container{
-    width: 60%;
-    margin: 0 auto;
-}
-.image-container {
-    width: 80%;
-    height: 100%;
-    float: left;
-    overflow: hidden;
-}
-.another-container {
-    width: 100%;
-    padding: 1em;
-    margin: auto;
-    display: flex;
-}
-.img-move {
-    width: 10%;
-    height: 100;
-    margin: auto;
-    float: left;
-    text-align: center;
-    line-height: 100%;
-}

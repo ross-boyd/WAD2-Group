@@ -3,24 +3,48 @@
 
 {% block content %}
 
-<div class="vote-container">
-    <div class="another-container">
-        <div class="img-move">
-            PREVIOUS
-        </div>
-        <div class="image-container">
-            <img src="{% static 'bestboy/img/dog1.jpg' %}" style="display:block; margin-left:auto; margin-right:auto;">
-        </div>
-        <div class="img-move">
-            NEXT
-        </div>
+<style>
+img{
+    max-width: 100%;
+}
+#main-body {
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: 80% 10% 10%;
+}
+#col-right {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+#col-left {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+#body-center {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    margin-top: 2%
+}
+#body-row {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+</style>
+<div id="main-body">
+    <div id="body-center">
+        <img src="{% static 'bestboy/img/dog1.jpg' %}" style="display:block; margin-left:auto; margin-right:auto;">
     </div>
-    <div class="slidecontainer">
+    <div id="body-center">
             <style data="thumbStyle" type="text/css">
             </style>
             
             <input type="range" min="1" max="100" value="50" class="slider" id="rating">
-            <p>Value: <span id="demoOutput"></span>/10</p>
+            
+            <button type="button" class="btn btn-outline-success">Value: <span id="demoOutput"></span>/10</button>
+    </div>
+    <div id="body-center" style="text-align: center">
+            <button type="button" class="btn btn-primary btn-lg btn-block">SUBMIT</button>
     </div>
 </div>
 
