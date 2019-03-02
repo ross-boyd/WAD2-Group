@@ -21,8 +21,9 @@ class Dog(models.Model):
     )
     breed = models.CharField(max_length=20, choices=BREED_CHOICES,
                              default='Unkown')
-    rating = models.IntegerField(default=0)
+    rating = models.FloatField(default=0)
     picture = models.ImageField('img', upload_to='MEDIA_ROOT')
+    votes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
