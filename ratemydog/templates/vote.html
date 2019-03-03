@@ -35,17 +35,24 @@ img{
     <div id="body-center">
         <img src="{% static 'bestboy/img/dog1.jpg' %}" style="display:block; margin-left:auto; margin-right:auto;">
     </div>
-    <div id="body-center">
-            <style data="thumbStyle" type="text/css">
-            </style>
-            
-            <input type="range" min="1" max="100" value="50" class="slider" id="rating">
-            
-            <button type="button" class="btn btn-outline-success">Value: <span id="demoOutput"></span>/10</button>
-    </div>
-    <div id="body-center" style="text-align: center">
-            <button type="button" class="btn btn-primary btn-lg btn-block">SUBMIT</button>
-    </div>
+    <form method="post">
+            {% csrf_token %}
+            <div id="body-center">
+                    <style data="thumbStyle" type="text/css">
+                    </style>
+                    
+                    <input type="range" min="1" max="100" value="50" class="slider" id="rating">
+                    
+                    
+                    <button type="button" class="btn btn-outline-success">Value: <span id="demoOutput"></span>/10</button>
+                    <input type="hidden", name="slider_value", id="slider_value">
+            </div>
+            <div id="body-center" style="text-align: center">
+
+                    <input type="submit" />
+                    
+            </div>
+    </form>
 </div>
 
 
@@ -65,8 +72,10 @@ function setData(x){
     output.innerHTML = x;
     var size = 75+x*5;
     style.innerHTML = ".slider::-moz-range-thumb { width: " + size  + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;} .slider::-webkit-slider-thumb { width: " + size  + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;}";
-    
+    document.getElementById('slider_value').value = slider.value/10;
 }
+
+
 
 </script>
 

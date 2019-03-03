@@ -12,7 +12,7 @@ class Test_User(models.Model):
 
 class Dog(models.Model):
     name = models.CharField(max_length=100)
-    owner = models.ForeignKey(Test_User, on_delete=models.CASCADE, default=1)
+    # owner = models.ForeignKey(Test_User, on_delete=models.CASCADE, default=1)
     BREED_CHOICES = (
         ('UK', 'Unkown'),
         ('GS', 'German Shepherd'),
