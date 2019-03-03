@@ -28,11 +28,20 @@ https://www.python.org/downloads/
 
 ## Tests
 
-Describe tests
-
+### Running Tests
 ```shell
-todo
+python manage.py test
 ```
+### Testing Code Coverage
+Running tests:
+```shell
+coverage run --source='.' manage.py test
+```
+Viewing report:
+```shell
+coverage report
+```
+
 
 ## Style guide
 
