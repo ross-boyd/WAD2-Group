@@ -1,18 +1,14 @@
 from django.db import models
-
+from ratemydog import settings
 # Create your models here.
-
-
-class Test_User(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
+from django.contrib.auth import get_user_model
 
 
 class Dog(models.Model):
+    dog_id = models.IntegerField(default=0)
     name = models.CharField(max_length=100)
-    # owner = models.ForeignKey(Test_User, on_delete=models.CASCADE, default=1)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              on_delete=models.CASCADE)
     BREED_CHOICES = (
         ('UK', 'Unkown'),
         ('GS', 'German Shepherd'),
