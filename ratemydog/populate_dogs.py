@@ -25,7 +25,7 @@ def populate():
     for id, file in enumerate(os.listdir(directory)):
         if file.endswith(".jpg"):
             save_dog(random.choice(names) + str(id), id, random.choice(breeds),
-                     round(random.uniform(0, 10), 1), 
+                     round(random.uniform(0, 10), 1),
                      directory + file, super_user)
 
 
