@@ -81,3 +81,22 @@ class ModelsTest(TestCase):
         username = self.get_user("DundeeBurnsWomen")
         self.assertIsNotNone(username)
 
+
+
+class TemplateTests(TestCase):
+
+    def test_base_template_exists(self):
+        base_path = os.path.join(os.path.join(BASE_DIR,'templates'), 'base.html')
+        self.assertTrue(os.path.isfile(base_path))
+
+
+class StaticFilesTests(TestCase):
+
+    def test_static_files(self):
+        result = finders.find('bestboy/img/dog1.jpg')
+        self.assertIsNotNone(result)
+
+    def test_static_files(self):
+        result = finders.find('bestboy/img/slider_dog.gif')
+        self.assertIsNotNone(result)
+
