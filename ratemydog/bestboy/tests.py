@@ -6,8 +6,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Checks whether urls are loaded successfully.
-
 
 class UrlTests(TestCase):
 
@@ -31,63 +29,7 @@ class UrlTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-class ModelsTest(TestCase):
-
-    def setUp(self):
-        try:
-            from populate_dogs import populate
-            populate()
-        except ImportError:
-            print("Populate_dogs script does not exist")
-        except NameError:
-            print("Function does not exist")
-        except:
-            print("Error in function")
-
-
-    def get_name(self, name):
-        from bestboy.models import Dog
-        try:
-            name = Dog.objects.get_or_create(name=name)
-        except Dog.DoesNotExist:
-            name = None
-        return name
-
-    def get_breed(self, name):
-        from bestboy.models import Dog
-        try:
-            breed = Dog.objects.get_or_create(name=name)
-        except Dog.DoesNotExist:
-            breed = None
-        return breed
-
-    def get_user(self, name):
-        from bestboy.models import Test_User
-        try:
-            username = Test_User.objects.get_or_create(name=name)
-        except Test_User.DoesNotExist:
-            username = None
-        return username
-
-    def test_add_name(self):
-        name = self.get_name("Leo")
-        self.assertIsNotNone(name)
-
-    def test_add_breed(self):
-        breed = self.get_breed("DM")
-        self.assertIsNotNone(breed)
-
-    def test_add_username(self):
-        username = self.get_user("DundeeBurnsWomen")
-        self.assertIsNotNone(username)
-
-
-
-class TemplateTests(TestCase):
-
-    def test_base_template_exists(self):
-        base_path = os.path.join(os.path.join(BASE_DIR,'templates'), 'base.html')
-        self.assertTrue(os.path.isfile(base_path))
+# -----------------------------------------------------------
 
 
 class StaticFilesTests(TestCase):
@@ -99,4 +41,117 @@ class StaticFilesTests(TestCase):
     def test_static_files(self):
         result = finders.find('bestboy/img/slider_dog.gif')
         self.assertIsNotNone(result)
+
+# -----------------------------------------------------------
+
+
+class FormsTests(TestCase):
+
+    def test_forms(self):
+        try:
+            from bestboy.forms import RatingForm
+            pass
+        except ImportError:
+            print("Error importing module")
+        except:
+            print("Error")
+
+# ---------------------------------------------------------------------------------------
+
+
+class IndexPageTests(TestCase):
+
+    def test_index_welcome(self):
+        response = self.client.get(reverse('index'))
+        self.assertIn(b'TOP DUGS', response.content )
+
+    def test_base_templates_used(self):
+        response = self.client.get(reverse('index'))
+        self.assertTemplateUsed(response, 'base.html')
+
+    #Navigation testing
+    def test_index_link_to_index(self):
+        try:
+            response = self.client.get(reverse('index'))
+        except:
+            response = False
+            return response
+
+    def test_index_link_to_vote(self):
+        try:
+            response = self.client.get(reverse('vote'))
+        except:
+            response = False
+            return response
+
+    def test_index_link_to_signup(self):
+        try:
+            response = self.client.get(reverse('signup'))
+        except:
+            response = False
+            return response
+
+    def test_index_link_to_login(self):
+        try:
+            response = self.client.get(reverse('login'))
+        except:
+            response = False
+            return response
+
+# ---------------------------------------------------------------------------------------
+
+
+class TemplateTests(TestCase):
+
+    def test_base_template_exists(self):
+        base_path = os.path.join(os.path.join(BASE_DIR,'templates'), 'base.html')
+        self.assertTrue(os.path.isfile(base_path))
+
+    def test_home_template_exists(self):
+        home_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'home.html')
+        self.assertTrue(os.path.isfile(home_path))
+
+    def test_login_template_exists(self):
+        login_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'login.html')
+        self.assertTrue(os.path.isfile(login_path))
+
+    def test_profile_template_exists(self):
+        profile_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'profile.html')
+        self.assertTrue(os.path.isfile(profile_path))
+
+    def test_signup_template_exists(self):
+        signup_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'signup.html')
+        self.assertTrue(os.path.isfile(signup_path))
+
+    def test_vote_template_exists(self):
+        vote_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'vote.html')
+        self.assertTrue(os.path.isfile(vote_path))
+
+# ---------------------------------------------------------------------------------------
+
+
+class TemplatesUseBaseTests(TestCase):
+    # Skipped
+    def _test_login_template(self):
+        response = self.client.get(reverse('login'))
+        self.assertTemplateUsed(response, 'base.html')
+
+    def test_signup_template(self):
+        response = self.client.get(reverse('signup'))
+        self.assertTemplateUsed(response, 'base.html')
+
+    # Skipped
+    def _test_profile_template(self):
+        response = self.client.get(reverse('profile'))
+        self.assertTemplateUsed(response, 'base.html')
+
+    def test_vote_template(self):
+        response = self.client.get(reverse('vote'))
+        self.assertTemplateUsed(response, 'base.html')
+
+
+
+
+
+
 
