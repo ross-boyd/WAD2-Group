@@ -8,7 +8,9 @@ from bestboy.models import Dog
 
 
 def index(request):
-    return render(request, 'home.html')
+        dogs = Dog.objects.all().order_by('-rating')[:10]
+        dog_id = str(dogs[0].dog_id)
+        return render(request, 'home.html', {'dog_id': dog_id})
 
 
 @login_required
@@ -33,3 +35,4 @@ def vote(request):
                         dog[0].save()
 
         return render(request, 'vote.html')
+

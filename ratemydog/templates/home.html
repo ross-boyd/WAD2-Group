@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles%}
+{% load staticfiles %}
 
 {% block content %}
 
@@ -11,7 +11,15 @@
 
     <table class="home-table">
         <tr>
-            <td><a href="#"> This link will be an image to the dog 1 voting page</a></td>
+            <td>
+                <a href="#">
+                {% with dog_id|slugify as image_path %}
+                    {% with 'bestboy/img/dog'|add:image_path|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                {% endwith %}
+                </a>
+            </td>
             <td><a href="#"> This link will be an image to the dog 2 voting page</a></td>
         </tr>
         <tr>
