@@ -30,7 +30,7 @@ def vote(request):
                                 dog[0].rating = request.POST["slider_value"]
                                 dog[0].votes += 1
                         else:
-                                dog[0].vote += 1
+                                dog[0].votes += 1
                         dog.save()
 
         return render(request, 'vote.html')
