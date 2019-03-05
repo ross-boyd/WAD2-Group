@@ -33,7 +33,16 @@ img{
 </style>
 <div id="main-body">
     <div id="body-center">
-        <img src="{% static 'bestboy/img/dog1.jpg' %}" style="display:block; margin-left:auto; margin-right:auto;">
+        <p>Username: {{ user.username }}. Thanks for logging in.</p>
+        <p>User password hasmap: {{ user.password }}. Thanks for logging in.</p>
+        <p>last voted id {{ user.last_voted_id }}. Thanks for logging in.</p>
+
+        {% with user.last_voted_id|slugify as image_path %}
+            {% with 'bestboy/img/dog'|add:image_path|add:'.jpg' as image_path %}
+                <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+            {% endwith %}
+        {% endwith %}
+
     </div>
     <div id="body-center">
         <form method="post">
@@ -44,6 +53,7 @@ img{
             <input type="range" min="1" max="100" value="50" class="slider" id="rating">           
             <button type="button" class="btn btn-outline-success">Value: <span id="demoOutput"></span>/10</button>
             <input type="hidden", name="slider_value", id="slider_value">
+            <input type="hidden" , name="dog_id" , id="dog_id">
             
 
         
@@ -54,6 +64,20 @@ img{
     </form>
 </div>
 
+<!--
+    What needs to happen
+    
+    #######
+
+    #1 User chooses dog score with slider
+    #2 User presses submit
+
+    #######
+
+    #3 User score is added to the dog average
+    #4 Custom User last_voted_id is incremented
+    #5 bestboy/img/dog + 'last_voted_id' + .jpg is displayed
+-->
 
 <script>
 var slider = document.getElementById("rating");
@@ -71,6 +95,8 @@ function setData(x){
     var size = 75+x*5;
     style.innerHTML = ".slider::-moz-range-thumb { width: " + size  + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;} .slider::-webkit-slider-thumb { width: " + size  + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;}";
     document.getElementById('slider_value').value = slider.value/10;
+    document.getElementById('dog_id').value
+
 }
 
 

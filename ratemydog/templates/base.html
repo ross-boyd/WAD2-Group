@@ -38,7 +38,7 @@
             </div>
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link disabled" href="#"> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="#"> Profile {{ user.get_username }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}"> Log out</a></li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
