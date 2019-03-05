@@ -11,18 +11,17 @@ def index(request):
     return render(request, 'home.html')
 
 
-# @login_required
-# disabled for testing
-
+@login_required
 def vote(request):
         if request.method == "POST":
                 form = RatingForm(request.POST)
                 if form.is_valid():
-                        # Will add other field details when we have more dog information on
-                        # the vote page
+                        # Will add other field details when we have more dog
+                        # information on the vote page
                         User = get_user_model()
                         owner = User.objects.get(username="SUPERUSER")
-                        dog = Dog.objects.get_or_create(owner=owner,dog_id=1000)
+                        dog = Dog.objects.get_or_create(owner=owner,
+                                                        dog_id=1000)
                         print(dog)
                         if dog[1] is False:
                                 dog[0].name = "LEO"
