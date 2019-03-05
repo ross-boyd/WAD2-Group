@@ -30,6 +30,6 @@ def vote(request):
                                 dog[0].votes += 1
                         else:
                                 dog[0].votes += 1
-                        dog.save()
+                        dog[0].save()
 
         return render(request, 'vote.html')
