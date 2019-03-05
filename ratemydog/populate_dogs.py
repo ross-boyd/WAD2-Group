@@ -1,16 +1,18 @@
 import os
 import random
-os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'ratemydog.settings')
 import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ratemydog.settings')
 django.setup()
+
 from bestboy.models import Dog
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 
 def populate():
-    directory = os.getcwd() + "\\bestboy\\media\\bestboy\\dog_pics"
+
+    directory = os.getcwd() + "/bestboy/media/bestboy/dog_pics"
     names = ["Leo", "Ross", "Bruce", "Danny"]
     breeds = ["GS", "DH", "DM"]
 
@@ -31,6 +33,7 @@ def populate():
 
 
 def save_dog(name, dog_id, breed, rating, picture, owner):
+
     d = Dog.objects.get_or_create(owner=owner, dog_id=dog_id)[0]
     d.name = name
     d.picture = picture
@@ -42,11 +45,13 @@ def save_dog(name, dog_id, breed, rating, picture, owner):
 
 
 def create_user(name):
+
     u = Test_User.objects.get_or_create(name=name)[0]
     u.save()
 
     return u
 
 if __name__ == '__main__':
+
     print("Populating dogs database...")
     populate()
