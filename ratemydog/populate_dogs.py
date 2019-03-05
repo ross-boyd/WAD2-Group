@@ -18,13 +18,12 @@ def populate():
 
     User = get_user_model()
     try:
-        super_user = User.objects.create_user(username="SUPERUSER", password="123")
+        super_user = User.objects.create_superuser(username="SUPERUSER", password="123", email="ding@dong.com")
         test_user = User.objects.create_user(username="TESTUSER", password="123")
     except:
         super_user = User.objects.get(username="SUPERUSER")
         test_user = User.objects.get(username="TESTUSER")
 
-    print(super_user.last_voted_id)
     for id, file in enumerate(os.listdir(directory)):
         if file.endswith(".jpg"):
             save_dog(random.choice(names) + str(id), id, random.choice(breeds),
