@@ -33,9 +33,7 @@ img{
 </style>
 <div id="main-body">
     <div id="body-center">
-        <p>Username: {{ user.username }}. Thanks for logging in.</p>
-        <p>User password hasmap: {{ user.password }}. Thanks for logging in.</p>
-        <p>last voted id {{ user.last_voted_id }}. Thanks for logging in.</p>
+        <p>Name: {{ dog.name }}</p>
 
         {% with user.last_voted_id|slugify as image_path %}
             {% with 'bestboy/img/dog'|add:image_path|add:'.jpg' as image_path %}
@@ -71,12 +69,13 @@ img{
 
     #1 User chooses dog score with slider
     #2 User presses submit
+    #5 bestboy/img/dog + 'last_voted_id' + .jpg is displayed
 
     #######
 
     #3 User score is added to the dog average
     #4 Custom User last_voted_id is incremented
-    #5 bestboy/img/dog + 'last_voted_id' + .jpg is displayed
+    
 -->
 
 <script>
