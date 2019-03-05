@@ -21,7 +21,7 @@ def vote(request):
             # the vote page
             User = get_user_model()
             dog = form.save(commit=False)
-            print(dog.owner.last_voted_id)
+            
             dog.name = "LEO"
             dog.dog_id = "1000"
             dog.owner = User.objects.get(username="SUPERUSER")
