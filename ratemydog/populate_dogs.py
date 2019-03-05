@@ -18,8 +18,8 @@ def populate():
 
     User = get_user_model()
     try:
-        super_user = User.objects.create_user(username="SUPERUSER")
-        test_user = User.objects.create_user(username="TESTUSER")
+        super_user = User.objects.create_user(username="SUPERUSER", password="123")
+        test_user = User.objects.create_user(username="TESTUSER", password="123")
     except:
         super_user = User.objects.get(username="SUPERUSER")
         test_user = User.objects.get(username="TESTUSER")
@@ -43,13 +43,6 @@ def save_dog(name, dog_id, breed, rating, picture, owner):
 
     return d
 
-
-def create_user(name):
-
-    u = Test_User.objects.get_or_create(name=name)[0]
-    u.save()
-
-    return u
 
 if __name__ == '__main__':
 
