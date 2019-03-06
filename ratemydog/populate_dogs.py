@@ -38,6 +38,7 @@ def save_dog(name, dog_id, breed, rating, picture, owner):
     d.picture = picture
     d.breed = breed
     d.rating = rating
+    d.average = rating
     d.save()
 
     return d

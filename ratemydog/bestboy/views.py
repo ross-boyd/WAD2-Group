@@ -8,7 +8,7 @@ from bestboy.models import Dog
 
 
 def index(request):
-        dog = Dog.objects.all().order_by('-rating')[:10]
+        dog = Dog.objects.all().order_by('-average')[:10]
         return render(request, 'home.html', {'dog_id0': str(dog[0].dog_id),
                                              'dog_id1': str(dog[1].dog_id),
                                              'dog_id2': str(dog[2].dog_id),
@@ -41,6 +41,7 @@ def vote(request):
                                 dog[0].votes += 1
                         else:
                                 dog[0].votes += 1
+                        dog[0].average = (float(dog[0].rating) / dog[0].votes)
                         dog[0].save()
 
         return render(request, 'vote.html')
