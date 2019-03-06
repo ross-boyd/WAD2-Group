@@ -37,11 +37,10 @@ def vote(request):
                         if dog[1] is False:
                                 dog[0].name = "LEO"
                                 dog[0].dog_id = "1000"
-                                dog[0].rating = request.POST["slider_value"]
+                                dog[0].rating += float(request.POST["slider_value"])
                                 dog[0].votes += 1
-                        else:
-                                dog[0].votes += 1
-                        dog[0].average = (float(dog[0].rating) / dog[0].votes)
+
+                        dog[0].average = float(dog[0].rating) / dog[0].votes
                         dog[0].save()
 
         return render(request, 'vote.html')
