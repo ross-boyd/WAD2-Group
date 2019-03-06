@@ -13,30 +13,80 @@
         <tr>
             <td>
                 <a href="#">
-                {% with dog_id|slugify as image_path %}
-                    {% with 'bestboy/img/dog'|add:image_path|add:'.jpg' as image_path %}
+                    {% with 'bestboy/img/dog'|add:dog_id0|add:'.jpg' as image_path %}
                         <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
                     {% endwith %}
-                {% endwith %}
                 </a>
             </td>
-            <td><a href="#"> This link will be an image to the dog 2 voting page</a></td>
+            <td>
+                <a href="#">{% with 'bestboy/img/dog'|add:dog_id1|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                 </a>
+            </td>
         </tr>
         <tr>
-            <td><a href="#"> This link will be an image to the dog 3 voting page</a></td>
-            <td><a href="#"> This link will be an image to the dog 4 voting page</a></td>
+            <td>
+                <a href="#"> {% with 'bestboy/img/dog'|add:dog_id2|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
+            <td>
+                <a href="#">
+                    {% with 'bestboy/img/dog'|add:dog_id3|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
         </tr>
         <tr>
-            <td><a href="#"> This link will be an image to the dog 5 voting page</a></td>
-            <td><a href="#"> This link will be an image to the dog 6 voting page</a></td>
+            <td>
+                <a href="#">
+                    {% with 'bestboy/img/dog'|add:dog_id4|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
+            <td>
+                <a href="#">
+                    {% with 'bestboy/img/dog'|add:dog_id5|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
         </tr>
         <tr>
-            <td><a href="#"> This link will be an image to the dog 7 voting page</a></td>
-            <td><a href="#"> This link will be an image to the dog 8 voting page</a></td>
+            <td>
+                <a href="#">
+                    {% with 'bestboy/img/dog'|add:dog_id6|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
+            <td>
+                <a href="#">
+                    {% with 'bestboy/img/dog'|add:dog_id7|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
         </tr>
         <tr>
-            <td><a href="#"> This link will be an image to the dog 9 voting page</a></td>
-            <td><a href="#"> This link will be an image to the dog 10 voting page</a></td>
+            <td>
+                <a href="#">
+                    {% with 'bestboy/img/dog'|add:dog_id8|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
+            <td>
+                <a href="#">
+                    {% with 'bestboy/img/dog'|add:dog_id9|add:'.jpg' as image_path %}
+                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                    {% endwith %}
+                </a>
+            </td>
         </tr>
     </table>
 </div>
