@@ -1,0 +1,81 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+.topdog-title {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.home-table {
+    width: 80%;
+    padding-left: 10px;
+}
+
+.home-table td {
+    padding-top: 10px;
+}
+
+* {
+    border-radius: 0 !important;
+}
+
+/* The slider itself */
+.slider {
+-webkit-appearance: none;
+width: 100%;
+height: 15px;
+border-radius: 5px;  
+background: #d3d3d3;
+outline: none;
+opacity: 0.7;
+-webkit-transition: .2s;
+transition: opacity .2s;
+}
+
+
+/* Mouse-over effects */
+.slider:hover {
+opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 75px;
+height: 75px;
+border-radius: 50%; 
+background: url('../img/slider_dog.gif') no-repeat center center;
+cursor: pointer;
+background-position: center center; /* First value is from left and second is from top. You can use use number as well*/
+background-repeat: no-repeat;
+background-size: cover;
+border: 10px;
+}
+
+.slider::-moz-range-thumb {
+width: 75px;
+height: 75px;
+border-radius: 50%;
+background: url('../img/slider_dog.gif') no-repeat center center;
+cursor: pointer;
+background-position: center center; /* First value is from left and second is from top. You can use use number as well*/
+background-repeat: no-repeat;
+background-size: cover;
+border: 10px;
+}
+/*w3 schools */
