@@ -21,33 +21,33 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-        <div class="container-fluid"><a class="navbar-brand" href="{% url 'home' %}">RATE MY DOG</a>
-
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#collapse_target">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="collapse_target">
-                <ul class="navbar-nav">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'vote' %}">Vote</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="#">Upload</a></li>
                 </ul>
             </div>
-                <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link disabled" href="#"> Profile {{ user.get_username }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}"> Log out</a></li>
-                    {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
-                    {% endif %}
-                </ul>
-            <!-- placing </div> here will contain all elements collapse and move the sign up and login buttons to the left-->
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto" href="#">RATE MA DUG</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
-    </nav>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link disabled" href="#"> Profile {{ user.get_username }}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}"> Log out</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        </nav>
+
 
 
     <!-- content from specific pages is inserted between the block content tags -->
