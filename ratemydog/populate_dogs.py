@@ -5,21 +5,23 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ratemydog.settings')
 django.setup()
 
-from bestboy.models import Dog
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+from bestboy.models import Dog
 
 
 def populate():
 
-    directory = os.getcwd() + "/bestboy/media/bestboy/dog_pics"
+    directory = os.getcwd() + "/bestboy/static/bestboy/img/dog_pics"
     names = ["Leo", "Ross", "Bruce", "Danny"]
     breeds = ["GS", "DH", "DM"]
 
     User = get_user_model()
     try:
-        super_user = User.objects.create_superuser(username="SUPERUSER", password="123", email="ding@dong.com")
-        test_user = User.objects.create_user(username="TESTUSER", password="123")
+        super_user = User.objects.create_superuser(
+            username="SUPERUSER", password="123", email="ding@dong.com")
+        test_user = User.objects.create_user(
+            username="TESTUSER", password="123")
     except:
         super_user = User.objects.get(username="SUPERUSER")
         test_user = User.objects.get(username="TESTUSER")

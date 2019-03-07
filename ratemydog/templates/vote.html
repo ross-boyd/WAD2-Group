@@ -39,7 +39,7 @@
     <div id="body-center">
 
         {% for id,url in output.items %}
-        {% with 'bestboy/img/dog'|add:url|add:'.jpg' as image_path %}
+        {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
         <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
         {% endwith %}
         {% endfor %}
