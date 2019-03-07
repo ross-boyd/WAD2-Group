@@ -37,7 +37,7 @@ img{
 
         {% with user.last_voted_id|slugify as image_path %}
             {% with 'bestboy/img/dog'|add:image_path|add:'.jpg' as image_path %}
-                <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
+                <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
             {% endwith %}
         {% endwith %}
 
