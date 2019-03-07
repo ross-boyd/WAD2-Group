@@ -32,16 +32,15 @@ def vote(request):
             # information on the vote page
             User = get_user_model()
             owner = User.objects.get(username="SUPERUSER")
-            dog = Dog.objects.get_or_create(owner=owner,
+            dog, created = Dog.objects.get_or_create(owner=owner,
                                             dog_id=1000)
-            print(dog)
-            if dog[1] is False:
-                dog[0].name = "LEO"
-                dog[0].dog_id = "1000"
-                dog[0].rating += float(request.POST["slider_value"])
-                dog[0].votes += 1
+            if created:
+                dog.name = "LEO"
+                dog.dog_id = "1000"
+                dog.rating += float(request.POST["slider_value"])
+                dog.votes += 1
 
-            dog[0].average = float(dog[0].rating) / dog[0].votes
-            dog[0].save()
+            dog.average = float(dog.rating) / dog.votes
+            dog.save()
 
     return render(request, 'vote.html')
