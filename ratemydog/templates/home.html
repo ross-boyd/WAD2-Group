@@ -4,17 +4,26 @@
 {% block content %}
 <style>
 #main-body {
+    padding: 2% 20%;
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 20% 20% 20% 20% 20%;
 }
-#row1{
+.row1{
+    margin:1%;
     grid-column-start: 1;
     grid-column-end: 2;
 }
-#row2{
+.row2{
+    margin:1%;
     grid-column-start: 2;
     grid-column-end: 3;
+}
+img {
+    object-fit: cover;
+    width:230px;
+    height:230px;
+    padding: 1%;
 }
 </style>
 
@@ -22,7 +31,7 @@
     {% for id,url in output.items %}
     {% with 'bestboy/img/dog'|add:url|add:'.jpg' as image_path %}
     <div id="{% cycle 'row1' 'row2' %}">
-        <img class="img-fluid img-thumbnail rounded mx-auto d-block" src="{% static image_path %}" />
+        <img class="rounded-circle mx-auto d-block" src="{% static image_path %}" />
     </div>
     {% endwith %}
     {% endfor %}
