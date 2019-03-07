@@ -35,11 +35,16 @@ img{
     <div id="body-center">
         <p>Name: {{ dog.name }}</p>
 
-        {% with user.last_voted_id|slugify as image_path %}
+        <!-- {% with user.last_voted_id|slugify as image_path %}
             {% with 'bestboy/img/dog'|add:image_path|add:'.jpg' as image_path %}
                 <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
             {% endwith %}
+        {% endwith %} -->
+        {% for id,url in output.items %}
+        {% with 'bestboy/img/dog'|add:url|add:'.jpg' as image_path %}
+            <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
         {% endwith %}
+        {% endfor %}
 
     </div>
     <div id="body-center">
