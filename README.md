@@ -41,7 +41,9 @@ Viewing report:
 ```shell
 coverage report
 ```
+### User testing
 
+Populate.py creates SUPERUSER::123 & TESTUSER::123 which can be used to login for testing purposes.
 
 ## Style guide
 
