@@ -31,11 +31,9 @@ def vote(request):
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
-            # Will add other field details when we have more dog
-            # information on the vote page
             owner = User.objects.get(username="SUPERUSER")
             dog, created = Dog.objects.get_or_create(owner=owner,
-                                            dog_id=1000)
+                                                     dog_id=1000)
             current_user.last_voted_id += 1
             current_user.save()
             if created:

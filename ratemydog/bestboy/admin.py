@@ -5,4 +5,3 @@ from bestboy.models import Dog
 
 
 admin.site.register(Dog)
-

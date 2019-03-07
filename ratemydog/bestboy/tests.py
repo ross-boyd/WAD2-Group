@@ -63,13 +63,13 @@ class IndexPageTests(TestCase):
 
     def test_index_welcome(self):
         response = self.client.get(reverse('index'))
-        self.assertIn(b'TOP DUGS', response.content )
+        self.assertIn(b'TOP DUGS', response.content)
 
     def test_base_templates_used(self):
         response = self.client.get(reverse('index'))
         self.assertTemplateUsed(response, 'base.html')
 
-    #Navigation testing
+    # Navigation testing
     def test_index_link_to_index(self):
         try:
             response = self.client.get(reverse('index'))
@@ -104,27 +104,33 @@ class IndexPageTests(TestCase):
 class TemplateTests(TestCase):
 
     def test_base_template_exists(self):
-        base_path = os.path.join(os.path.join(BASE_DIR,'templates'), 'base.html')
+        base_path = os.path.join(os.path.join(
+            BASE_DIR, 'templates'), 'base.html')
         self.assertTrue(os.path.isfile(base_path))
 
     def test_home_template_exists(self):
-        home_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'home.html')
+        home_path = os.path.join(os.path.join(
+            BASE_DIR, 'templates'), 'home.html')
         self.assertTrue(os.path.isfile(home_path))
 
     def test_login_template_exists(self):
-        login_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'login.html')
+        login_path = os.path.join(os.path.join(
+            BASE_DIR, 'templates'), 'login.html')
         self.assertTrue(os.path.isfile(login_path))
 
     def test_profile_template_exists(self):
-        profile_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'profile.html')
+        profile_path = os.path.join(os.path.join(
+            BASE_DIR, 'templates'), 'profile.html')
         self.assertTrue(os.path.isfile(profile_path))
 
     def test_signup_template_exists(self):
-        signup_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'signup.html')
+        signup_path = os.path.join(os.path.join(
+            BASE_DIR, 'templates'), 'signup.html')
         self.assertTrue(os.path.isfile(signup_path))
 
     def test_vote_template_exists(self):
-        vote_path = os.path.join(os.path.join(BASE_DIR, 'templates'), 'vote.html')
+        vote_path = os.path.join(os.path.join(
+            BASE_DIR, 'templates'), 'vote.html')
         self.assertTrue(os.path.isfile(vote_path))
 
 # ---------------------------------------------------------------------------------------
@@ -148,10 +154,3 @@ class TemplatesUseBaseTests(TestCase):
     def test_vote_template(self):
         response = self.client.get(reverse('vote'))
         self.assertTemplateUsed(response, 'base.html')
-
-
-
-
-
-
-
