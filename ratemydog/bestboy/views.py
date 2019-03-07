@@ -9,6 +9,7 @@ from bestboy.models import Dog
 
 def index(request):
     dog = Dog.objects.all().order_by('-average')[:10]
+    print(dog[0])
     context = {'dog_id0': str(dog[0].dog_id),
                'dog_id1': str(dog[1].dog_id),
                'dog_id2': str(dog[2].dog_id),
@@ -32,8 +33,10 @@ def vote(request):
             # information on the vote page
             User = get_user_model()
             owner = User.objects.get(username="SUPERUSER")
+            current_user = request.User
+            context = current_user.last_voted_id
             dog, created = Dog.objects.get_or_create(owner=owner,
-                                            dog_id=1000)
+                                                     dog_id=1000)
             if created:
                 dog.name = "LEO"
                 dog.dog_id = "1000"
@@ -43,4 +46,4 @@ def vote(request):
             dog.average = float(dog.rating) / dog.votes
             dog.save()
 
-    return render(request, 'vote.html')
+    return render(request, 'vote.html', {'context': context})
