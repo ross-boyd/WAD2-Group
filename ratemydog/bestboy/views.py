@@ -27,15 +27,14 @@ def index(request):
 def vote(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
-    next_Dog = current_user.last_voted_id+1
+
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
             owner = User.objects.get(username="SUPERUSER")
             dog, created = Dog.objects.get_or_create(owner=owner,
                                                      dog_id=1000)
-            current_user.last_voted_id += 1
-            current_user.save()
+ 
             if created:
                 dog.name = "LEO"
                 dog.dog_id = "1000"
@@ -44,5 +43,10 @@ def vote(request):
 
             dog.average = float(dog.rating) / dog.votes
             dog.save()
+
+            current_user.last_voted_id += 1
+            current_user.save()
+
+    next_Dog = current_user.last_voted_id+1
 
     return render(request, 'vote.html', {"output": {id: str(next_Dog)}})
