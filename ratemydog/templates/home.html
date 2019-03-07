@@ -2,94 +2,32 @@
 {% load staticfiles %}
 
 {% block content %}
+<style>
+#main-body {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+}
+#row1{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+#row2{
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+</style>
 
-<div class="topdog-title">
-    <h2>
-        TOP DUGS
-    </h2>
-
-
-    <table class="home-table">
-        <tr>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id0|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-            <td>
-                <a href="#">{% with 'bestboy/img/dog'|add:dog_id1|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                 </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#"> {% with 'bestboy/img/dog'|add:dog_id2|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id3|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id4|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id5|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id6|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id7|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id8|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-            <td>
-                <a href="#">
-                    {% with 'bestboy/img/dog'|add:dog_id9|add:'.jpg' as image_path %}
-                        <img style="display:block; margin-left:auto; margin-right:auto;" src="{% static image_path %}" />
-                    {% endwith %}
-                </a>
-            </td>
-        </tr>
-    </table>
+<div id="main-body">
+    {% for id,url in output.items %}
+    {% with 'bestboy/img/dog'|add:url|add:'.jpg' as image_path %}
+    <div id="{% cycle 'row1' 'row2' %}">
+        <img class="img-fluid img-thumbnail rounded mx-auto d-block" src="{% static image_path %}" />
+    </div>
+    {% endwith %}
+    {% endfor %}
 </div>
+
 
 
 {% endblock %}
