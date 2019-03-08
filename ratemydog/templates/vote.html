@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<style>
+    img {
+        max-width: 100%;
+    }
+
+    #main-body {
+        display: grid;
+        grid-template-columns: 10% 80% 10%;
+        grid-template-rows: 80% 10% 10%;
+    }
+
+    #col-right {
+        grid-column-start: 3;
+        grid-column-end: 4;
+    }
+
+    #col-left {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    #body-center {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        margin-top: 2%
+    }
+
+    #body-row {
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+</style>
+<div id="main-body">
+    <div id="body-center">
+
+        {% for id,url in output.items %}
+        {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
+        <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
+        {% endwith %}
+        {% endfor %}
+
+    </div>
+    <div id="body-center">
+        <form method="post">
+            {% csrf_token %}
+            <style data="thumbStyle" type="text/css">
+            </style>
+
+            <input type="range" min="1" max="100" value="50" class="slider" id="rating">
+            <button type="button" class="btn btn-outline-success">Value: <span id="demoOutput"></span>/10</button>
+            <input type="hidden" , name="slider_value" , id="slider_value">
+            <input type="hidden" , name="dog_id" , id="dog_id">
+    </div>
+    <div id="body-center" style="text-align: center">
+        </br>
+        <input type="submit" class="btn btn-primary btn-lg" />
+    </div>
+    </form>
+</div>
+
+<script>
+    var slider = document.getElementById("rating");
+    var output = document.getElementById("demoOutput");
+    var style = document.querySelector('[data="thumbStyle"]');
+
+    setData(slider.value / 10);
+
+    slider.oninput = function () {
+        setData(this.value / 10);
+    }
+
+    function setData(x) {
+        output.innerHTML = x;
+        var size = 75 + x * 5;
+        style.innerHTML = ".slider::-moz-range-thumb { width: " + size + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;} .slider::-webkit-slider-thumb { width: " + size + "px !important; height: " + size + "px !important; background-position: center center; background-repeat: no-repeat; background-size: cover;}";
+        document.getElementById('slider_value').value = slider.value / 10;
+        document.getElementById('dog_id').value
+
+    }
+</script>
+
+
+{% endblock %}

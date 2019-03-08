@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+.vscode/
+.idea/
+WAD2_GROUP.iml
