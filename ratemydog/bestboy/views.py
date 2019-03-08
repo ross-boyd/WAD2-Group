@@ -28,18 +28,15 @@ def vote(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
 
-    if request.method == "POST":
+    # Submits dog rating when button is pressed
+    if request.method == "POST": 
         form = RatingForm(request.POST)
         if form.is_valid():
             owner = User.objects.get(username="SUPERUSER")
-            dog, created = Dog.objects.get_or_create(owner=owner,
-                                                     dog_id=1000)
- 
-            if created:
-                dog.name = "LEO"
-                dog.dog_id = "1000"
-                dog.rating += float(request.POST["slider_value"])
-                dog.votes += 1
+            dog = Dog.objects.get_or_create(dog_id=current_user.last_voted_id)[0]
+
+            dog.rating += float(request.POST["slider_value"])
+            dog.votes += 1
 
             dog.average = float(dog.rating) / dog.votes
             dog.save()
