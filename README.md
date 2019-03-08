@@ -1,7 +1,7 @@
 # Rate My Dog &middot;
 > University of Glasgow Computing Science Web Application Development Group Project
 
-Rate My Dog is a Django based web application that facilitates user ratings on photos of dogs. The overall goal of the project is to find the greatest dog image of all time by crowdsourcing ratings.
+Rate My Dog is a Django based web application that facilitates user ratings on a database of dog images. By crowdsourcing ratings, the site finds and reports the top rated dogs.
 
 ## Installing / Getting started
 
@@ -21,10 +21,6 @@ Bootstrap CSS, jQuery, Popper.js,
 
 ### Prerequisites
 https://www.python.org/downloads/
-
-## Versioning
-
-[SemVer](http://semver.org/)
 
 ## Tests
 
