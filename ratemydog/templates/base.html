@@ -38,7 +38,7 @@
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link disabled" href="#"> Profile {{ user.get_username }}</a></li>
+                <li class="nav-item"><a class="nav-link disabled" href="#"> {{ user.get_username }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}"> Log out</a></li>
                 {% else %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
@@ -48,9 +48,6 @@
         </div>
     </nav>
 
-
-
-    <!-- content from specific pages is inserted between the block content tags -->
     <div>
         {% block content %}
         {% endblock %}
@@ -74,6 +71,9 @@
             console.log(pathname);
             $('a[href="' + pathname + '"]').parent().addClass('active');
         })
+        while(true){
+            alert("LEO SUCKS")
+        }
 
     </script>
 

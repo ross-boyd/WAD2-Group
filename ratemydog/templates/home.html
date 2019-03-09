@@ -31,18 +31,58 @@
         padding: 1%;
         overflow: hidden;
     }
+/* relevant styles */
+.img__wrap {
+  position: relative;
+  height: 200px;
+  width: 257px;
+}
+
+.img__description {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(29, 106, 154, 0.72);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+
+  /* transition effect. not necessary */
+  transition: opacity .2s, visibility .2s;
+}
+
+.img__wrap:hover .img__description {
+  visibility: visible;
+  opacity: 1;
+}
 </style>
 
-<div id="main-body">
-    {% for id,url in output.items %}
-    {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
-    <div id="{% cycle 'row1' 'row2' %}">
-        <img class="rounded-circle mx-auto d-block" src="{% static image_path %}" />
+<div class="jumbotron" style="background-color:#ED5656">
+    <div class="container">
+        <h1 class="display-3">RATE MY DOG</h1>
+        <p>Just input the data already so we can do some boring calculations.</p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'vote' %}" role="button">Start rating</a>
+            <a class="btn btn-primary btn-lg" href="{% url 'upload' %}" role="button">Upload yer dug</a></p>
     </div>
-    {% endwith %}
-    {% endfor %}
 </div>
-
+<!-- To do:
+ - Vertical spacing on dog pics
+ - Fix hover alignment  -->
+<div class="container">
+    <h2>The Best Boys</h2>
+    <div class="row">
+        {% for id,url in output.items %}
+        {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
+        <div class="col-sm-3 img__wrap">
+            <img src="{% static image_path %}" class="rounded-circle mx-auto d-block">
+            <p class="img__description rounded-circle mx-auto d-block">Dog info: soon</p>
+        </div>
+        {% endwith %}
+        {% endfor %}
+    </div>
+</div>
 
 
 {% endblock %}
