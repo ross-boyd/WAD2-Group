@@ -47,3 +47,7 @@ def vote(request):
     next_Dog = current_user.last_voted_id+1
 
     return render(request, 'vote.html', {"output": {id: str(next_Dog)}})
+
+@login_required
+def upload(request):
+    return render(request, 'upload.html')
