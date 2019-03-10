@@ -25,38 +25,35 @@
     }
 
     img {
-        object-fit: cover;
-        width: 230px;
-        height: 230px;
-        padding: 1%;
-        overflow: hidden;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
     }
-/* relevant styles */
-.img__wrap {
-  position: relative;
-  height: 200px;
-  width: 257px;
-}
+    .img__wrap {
+        border-radius: 50%;
+        height: 250px;
+        width: 250px;
+    }
 
-.img__description {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(29, 106, 154, 0.72);
-  color: #fff;
-  visibility: hidden;
-  opacity: 0;
+    .img__description {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #ED5656;
+        color: #fff;
+        visibility: hidden;
+        opacity: 0.7;
 
-  /* transition effect. not necessary */
-  transition: opacity .2s, visibility .2s;
-}
+        /* transition effect. not necessary */
+        transition: opacity .2s, visibility .2s;
+    }
 
-.img__wrap:hover .img__description {
-  visibility: visible;
-  opacity: 1;
-}
+    .img__wrap:hover .img__description {
+        visibility: visible;
+        opacity: 1;
+    }
 </style>
 
 <div class="jumbotron" style="background-color:#ED5656">
@@ -68,16 +65,15 @@
     </div>
 </div>
 <!-- To do:
- - Vertical spacing on dog pics
  - Fix hover alignment  -->
 <div class="container">
     <h2>The Best Boys</h2>
     <div class="row">
         {% for id,url in output.items %}
         {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
-        <div class="col-sm-3 img__wrap">
+        <div class="img__wrap" style="padding: 2%">
             <img src="{% static image_path %}" class="rounded-circle mx-auto d-block">
-            <p class="img__description rounded-circle mx-auto d-block">Dog info: soon</p>
+            <p class="img__description">Dog info: soon</p>
         </div>
         {% endwith %}
         {% endfor %}
