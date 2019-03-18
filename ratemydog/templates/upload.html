@@ -3,15 +3,36 @@
 
 {% block content %}
 
-<p>UPLOAD PAGE</p>
+<div class="jumbotron" style="background-color:#ED5656">
+    <div class="container">
+        <h1 class="display-3">Upload</h1>
+        <p>Upload a dog and allow other users to rate it!</p>
+    </div>
+</div>
+<div class="container">
 
-<form action="" method="post" enctype="multipart/form-data">
+  <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <p>
-        <input id="id_name" type="text" class="" name="name">
-        <input id="id_image" type="file" class="" name="image">
-    </p>
-    <input type="submit" value="Submit" />
-</form>
+    <div class="form-group">
+        <label>Dog name</label>
+        <input id="id_name" type="text" class="form-control" name="name">
+        <small class="form-text text-muted">If you are unsure, leave it blank and we'll give it a name :)</small>
+    </div>
+    <!-- The following is largely sourced from BS4 #custom-file-input-->
+    <div class="input-group mb-3">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="inputGroupFile03">
+        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+      </div>
+    </div>
+    <!---->
+    <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+
+    
+  </form>
+
+</div>
+
+
 
 {% endblock %}
