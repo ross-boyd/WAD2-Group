@@ -13,7 +13,6 @@ from bestboy.models import Dog
 def populate():
 
     directory = os.getcwd() + "/bestboy/static/bestboy/img/dog_pics"
-    names = ["Leo", "Ross", "Bruce", "Danny"]
     breeds = ["GS", "DH", "DM"]
 
     User = get_user_model()
@@ -28,9 +27,10 @@ def populate():
 
     for id, file in enumerate(os.listdir(directory)):
         if file.endswith(".jpg"):
-            save_dog(random.choice(names) + str(id), id, random.choice(breeds),
+            save_dog("Dog" + str(id), id,
+                     random.choice(breeds),
                      round(random.uniform(0, 10), 1),
-                     directory + file, super_user)
+                     directory + "/" + file, super_user)
 
 
 def save_dog(name, dog_id, breed, rating, picture, owner):
