@@ -25,12 +25,12 @@ def populate():
         super_user = User.objects.get(username="SUPERUSER")
         test_user = User.objects.get(username="TESTUSER")
 
-    for id, file in enumerate(os.listdir(directory)):
-        if file.endswith(".jpg"):
-            save_dog("Dog" + str(id), id,
-                     random.choice(breeds),
-                     round(random.uniform(0, 10), 1),
-                     directory + "/" + file, super_user)
+    for id in range(1, 102):
+        print(id)
+        save_dog("Dog" + str(id), id,
+                    random.choice(breeds),
+                    round(random.uniform(0, 10), 1),
+                    directory + "/dog" + str(id) + ".jpg", super_user)
 
 
 def save_dog(name, dog_id, breed, rating, picture, owner):
