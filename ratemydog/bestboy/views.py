@@ -38,6 +38,7 @@ def vote(request):
     doggies = Dog.objects.all()
     dug = []
     found = []
+    current_user.last_voted_id = 0
 
     dug.append(str(doggies[current_user.last_voted_id].picture))
     m = re.search('static/(.+?)$', dug[0])
