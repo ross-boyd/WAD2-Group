@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from bestboy.forms import RatingForm, UploadForm
+from bestboy.forms import RatingForm, UploadForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from bestboy.models import Dog
+from bestboy.models import Dog, Comment
 import re
 
 
@@ -51,6 +51,10 @@ def vote(request):
 
             current_user.last_voted_id += 1
             current_user.save()
+
+            comment = Comment.objects.get_or_create(post=dog, author=current_user)[0]
+            comment.text = request.POST["comment"]
+            comment.save()
 
     next_Dog = current_user.last_voted_id
 

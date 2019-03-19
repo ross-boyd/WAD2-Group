@@ -2,6 +2,7 @@ from django.db import models
 from ratemydog import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Dog(models.Model):
@@ -11,7 +12,7 @@ class Dog(models.Model):
                               on_delete=models.CASCADE)
     BREED_CHOICES = (
         ('UK', 'Unkown'),
-        ('GS', 'German Shepherd'),
+        ('GS', 'Leo has no nuts'),
         ('DM', 'Dobermann'),
         ('DH', 'Dachshund'),
     )
@@ -25,3 +26,13 @@ class Dog(models.Model):
     def __str__(self):
         return self.name
 
+
+class Comment(models.Model):
+    post = models.ForeignKey(Dog, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE)
+    text = models.TextField(max_length=3000)
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text

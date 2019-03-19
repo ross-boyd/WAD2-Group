@@ -1,5 +1,5 @@
 from django import forms
-from bestboy.models import Dog
+from bestboy.models import Dog, Comment
 
 
 class RatingForm(forms.ModelForm):
@@ -8,6 +8,14 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = Dog
         fields = ('rating',)
+
+
+class CommentForm(forms.ModelForm):
+    comment = forms.CharField(widget=forms.Textarea, required=False)
+
+    class Meta:
+        model = Comment
+        fields = ('text',)
 
 
 class UploadForm(forms.ModelForm):
