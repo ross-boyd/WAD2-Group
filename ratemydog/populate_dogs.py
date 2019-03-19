@@ -38,14 +38,13 @@ def populate():
                  directory + "/dog" + str(id) + ".jpg", super_user)
 
 
-def save_dog(name, dog_id, breed, rating, picture, owner):
+def save_dog(name, dog_id, breed, score, picture, owner):
 
     d = Dog.objects.get_or_create(owner=owner, dog_id=dog_id)[0]
     d.name = name
     d.picture = picture
     d.breed = breed
-    d.rating = rating
-    d.average = rating
+    d.score = score
     d.votes = 1
     d.save()
 
