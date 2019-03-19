@@ -49,9 +49,5 @@ def save_dog(name, dog_id, breed, rating, picture, owner):
 if __name__ == '__main__':
 
     print("Populating dogs database...")
-    try:
-        populate()
-        print("Populated successfully :)\n")
-    except Exception as e:
-        print("Ahh!!!! Error populating the db!!!!\n")
-        print(e.message)
+    populate()
+    print("Populated successfully :)\n")
