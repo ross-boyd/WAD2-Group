@@ -25,7 +25,7 @@
 
     .img__wrap:hover .img__description {
         visibility: visible;
-        opacity: 1;
+        opacity: 0.7;
     }
 
     img {
@@ -44,16 +44,18 @@
             <a class="btn btn-primary btn-lg" href="{% url 'upload' %}" role="button">Upload dog pics</a></p>
     </div>
 </div>
-<!-- To do:
- - Fix hover alignment  -->
+
 <div class="container">
     <h2>The Best Boys</h2>
     <div class="row">
         {% for id,url in output.items %}
         {% with url as image_path %}
-        <div class="img__wrap" style="padding: 2%">
-            <img src="{% static image_path %}" class="rounded-circle mx-auto d-block">
-            <p class="img__description">Dog info: soon</p>
+        <div class="img__wrap mx-auto d-block" style="position: relative">
+            <img src="{% static image_path %}" class="rounded-circle">
+            <div class="img__description rounded-circle mx-auto"
+                style="overflow: hidden; position: absolute; text-align: center">
+                <span style="display: inline-block">#{{id}}</span>
+            </div>
         </div>
         {% endwith %}
         {% endfor %}
