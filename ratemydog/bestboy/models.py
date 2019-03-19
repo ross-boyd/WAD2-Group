@@ -22,6 +22,7 @@ class Dog(models.Model):
     breed = models.CharField(max_length=20, choices=BREED_CHOICES,
                              default='Unkown')
     score = models.FloatField(default=0)
+    average = models.FloatField(default=0)
     picture = models.ImageField('img', upload_to='bestboy/dog_pics/')
     votes = models.IntegerField(default=0)
 

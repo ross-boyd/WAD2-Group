@@ -44,13 +44,12 @@ def vote(request):
     found.append(m.group(1))
     # Submits dog rating when button is pressed
     if request.method == "POST":
-        print(request.POST)
         form = RatingForm(request.POST)
         if form.is_valid():
-            print("HI")
             dog = Dog.objects.get(dog_id=current_user.last_voted_id)
             dog.score += float(request.POST["slider_value"])
             dog.votes += 1
+            dog.average = dog.score / dog.votes
             dog.save()
 
             current_user.last_voted_id += 1
@@ -68,14 +67,10 @@ def vote(request):
             dug.append(str(doggies[current_user.last_voted_id].picture))
             m = re.search('static/(.+?)$', dug[0])
             found.append(m.group(1))
-        else:
-            print(form.errors)
 
     context = {'dogID': found[0]}
 
     return render(request, 'vote.html', {"output": context})
-
-    return render(request, 'vote.html', {"output": {id: str(next_Dog)}})
 
 
 @login_required

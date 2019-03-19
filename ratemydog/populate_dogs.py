@@ -7,7 +7,7 @@ django.setup()
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from bestboy.models import Dog
+from bestboy.models import Dog, Rating
 
 
 def populate():
@@ -44,6 +44,7 @@ def save_dog(name, dog_id, breed, score, picture, owner):
     d.name = name
     d.picture = picture
     d.breed = breed
+    d.average = score
     d.score = score
     d.votes = 1
     d.save()
