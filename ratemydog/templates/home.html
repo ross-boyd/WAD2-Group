@@ -50,7 +50,7 @@
     <h2>The Best Boys</h2>
     <div class="row">
         {% for id,url in output.items %}
-        {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
+        {% with url as image_path %}
         <div class="img__wrap" style="padding: 2%">
             <img src="{% static image_path %}" class="rounded-circle mx-auto d-block">
             <p class="img__description">Dog info: soon</p>
