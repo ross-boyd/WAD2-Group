@@ -107,3 +107,4 @@ venv.bak/
 .idea/
 WAD2_GROUP.iml
 ratemydog/bestboy/migrations/
+ratemydog/users/migrations/
