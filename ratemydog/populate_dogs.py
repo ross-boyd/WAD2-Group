@@ -7,7 +7,7 @@ django.setup()
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from bestboy.models import Dog
+from bestboy.models import Dog, Rating
 
 
 def populate():
@@ -34,23 +34,34 @@ def populate():
     for id in range(1, 102):
         save_dog("Dog" + str(id), id,
                  random.choice(breeds),
-                 round(random.uniform(0, 10), 1),
                  directory + "/dog" + str(id) + ".jpg", super_user)
+        rate_dog(id, round(random.uniform(0, 10), 1), random.choice(comments), test_user)
 
 
-def save_dog(name, dog_id, breed, rating, picture, owner):
-
+def save_dog(name, dog_id, breed, picture, owner):
     d = Dog.objects.get_or_create(owner=owner, dog_id=dog_id)[0]
     d.name = name
     d.picture = picture
     d.breed = breed
-    d.rating = rating
-    d.average = rating
-    d.votes = 1
     d.save()
 
     return d
 
+
+def rate_dog(id, score, comment, user):
+    print(id)
+    d = Dog.objects.get(dog_id=id)
+    d.score += score
+    d.votes += 1
+    d.average = d.score / d.votes
+    d.save()
+
+    r = Rating.objects.get_or_create(dog=d, user=user)[0]
+    r.score = score
+    r.text = comment
+    r.save()
+
+    return d, r
 
 if __name__ == '__main__':
 

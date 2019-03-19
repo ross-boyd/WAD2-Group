@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from bestboy.forms import RatingForm, UploadForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from bestboy.models import Dog, Comment
+from bestboy.models import Dog, Rating
+from bestboy.forms import RatingForm, UploadForm
 import re
 
 
@@ -42,34 +42,27 @@ def vote(request):
     dug.append(str(doggies[current_user.last_voted_id].picture))
     m = re.search('static/(.+?)$', dug[0])
     found.append(m.group(1))
-
     # Submits dog rating when button is pressed
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
-
-            dog = Dog.objects.get_or_create(
-                dog_id=current_user.last_voted_id)[0]
-
-            doggies = Dog.objects.all()
-            dug = []
-            found = []
-
-            dog.rating += float(request.POST["slider_value"])
+            dog = Dog.objects.get(dog_id=current_user.last_voted_id)
+            dog.score += float(request.POST["slider_value"])
             dog.votes += 1
-
-            dog.average = float(dog.rating) / dog.votes
+            dog.average = dog.score / dog.votes
             dog.save()
 
             current_user.last_voted_id += 1
             current_user.save()
 
-            next_Dog = current_user.last_voted_id
-            comment = Comment.objects.get_or_create(
-                post=dog, author=current_user)[0]
+            rating = Rating.objects.get_or_create(dog=dog, user=current_user)[0]
+            rating.score = request.POST["slider_value"]
+            rating.text = request.POST["comment"]
+            rating.save()
 
-            comment.text = request.POST["comment"]
-            comment.save()
+            doggies = Dog.objects.all()
+            dug = []
+            found = []
 
             dug.append(str(doggies[current_user.last_voted_id].picture))
             m = re.search('static/(.+?)$', dug[0])

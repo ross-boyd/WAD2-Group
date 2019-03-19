@@ -51,10 +51,11 @@
         {% for id,url in output.items %}
         {% with url as image_path %}
         <div class="img__wrap mx-auto d-block" style="position: relative">
-            <img src="{% static image_path %}" class="rounded-circle">
-            <div class="img__description rounded-circle mx-auto"
+            <img src="{% static image_path %}" class="rounded">
+            <div class="img__description rounded mx-auto"
                 style="overflow: hidden; position: absolute; text-align: center">
-                <span style="display: inline-block">#{{id}}</span>
+                <span style="display: inline-block">Dog #{{id}}</span>
+                <span style="display: inline-block">{{url}}</span>
             </div>
         </div>
         {% endwith %}
