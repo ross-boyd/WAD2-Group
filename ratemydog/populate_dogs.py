@@ -26,7 +26,6 @@ def populate():
         test_user = User.objects.get(username="TESTUSER")
 
     for id in range(1, 102):
-        print(id)
         save_dog("Dog" + str(id), id,
                     random.choice(breeds),
                     round(random.uniform(0, 10), 1),
@@ -50,4 +49,9 @@ def save_dog(name, dog_id, breed, rating, picture, owner):
 if __name__ == '__main__':
 
     print("Populating dogs database...")
-    populate()
+    try:
+        populate()
+        print("Populated successfully :)\n")
+    except Exception as e:
+        print("Ahh!!!! Error populating the db!!!!\n")
+        print(e.message)
