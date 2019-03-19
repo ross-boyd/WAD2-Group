@@ -7,50 +7,68 @@
     img {
         max-width: 100%;
     }
-
-    #main-body {
-        display: grid;
-        grid-template-columns: 10% 80% 10%;
-        grid-template-rows: 80% 10% 10%;
-    }
-
-    #body-center {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        margin-top: 2%
-    }
-
-    #body-row {
-        grid-column-start: 1;
-        grid-column-end: 4;
-    }
 </style>
-<div id="main-body">
-    <div id="body-center">
-
-        {% for id,url in output.items %}
-        {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
-        <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
-        {% endwith %}
-        {% endfor %}
-
+<div class="jumbotron" style="background-color:#ED5656">
+    <div class="container">
+        <h1 class="display-3">Vote</h1>
+        <p>Vote on dogs :3</p>
     </div>
-    <div id="body-center">
-        <form method="post">
-            {% csrf_token %}
-            <style data="thumbStyle" type="text/css">
-            </style>
+</div>
+<div class="container">
 
-            <input type="range" min="1" max="100" value="50" class="slider" id="rating">
-            <button type="button" class="btn btn-outline-success">Value: <span id="demoOutput"></span>/10</button>
+    {% for id,url in output.items %}
+    {% with 'bestboy/img/dog_pics/dog'|add:url|add:'.jpg' as image_path %}
+    <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
+    {% endwith %}
+    {% endfor %}
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col align-self-center" style="padding-top: 2%">
+            <form method="post">
+                {% csrf_token %}
+                <style data="thumbStyle" type="text/css">
+                </style>
+
+                <input type="range" min="1" max="100" value="50" class="slider" id="rating">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col align-self-center" style="padding-top: 2%">
+            </br>
+            <input type="submit" class="btn btn-primary btn-lg" />
+            <button type="button" class="btn btn-outline-success">Score: <span id="demoOutput"></span>/10</button>
             <input type="hidden" , name="slider_value" , id="slider_value">
             <input type="hidden" , name="dog_id" , id="dog_id">
-    </div>
-    <div id="body-center" style="text-align: center">
-        </br>
-        <input type="submit" class="btn btn-primary btn-lg" />
+            
+        </div>
     </div>
     </form>
+</div>
+<hr>
+<div class="container">
+    <form method="post">
+        <div class="row">
+            <div class="col align-self-center">
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                    <small class="form-text text-muted">Be nice woof :)</small>
+                    <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col align-self-center">
+            <p>{USERNAME}</p>
+            <p> This dog is a goodboy.</p>
+        </div>
+    </div>
 </div>
 
 <script>

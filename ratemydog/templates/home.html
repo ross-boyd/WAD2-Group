@@ -3,9 +3,6 @@
 
 {% block content %}
 <style>
-
-
-
     .img__wrap {
         border-radius: 50%;
         height: 250px;
@@ -30,16 +27,22 @@
         visibility: visible;
         opacity: 1;
     }
-        img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
     }
 </style>
 
 <div class="jumbotron" style="background-color:#ED5656">
-5
+    <div class="container">
+        <h1 class="display-3">RATE MY DOG</h1>
+        <p>Just input the data already so we can do some boring calculations.</p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'vote' %}" role="button">Start voting</a>
+            <a class="btn btn-primary btn-lg" href="{% url 'upload' %}" role="button">Upload dog pics</a></p>
+    </div>
 </div>
 <!-- To do:
  - Fix hover alignment  -->
