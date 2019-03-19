@@ -5,20 +5,28 @@ from bestboy.forms import RatingForm, UploadForm
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from bestboy.models import Dog
+import re
 
 
 def index(request):
-    dog = Dog.objects.all().order_by('-average')[:10]
-    context = {'dog_id0': str(dog[0].dog_id),
-               'dog_id1': str(dog[1].dog_id),
-               'dog_id2': str(dog[2].dog_id),
-               'dog_id3': str(dog[3].dog_id),
-               'dog_id4': str(dog[4].dog_id),
-               'dog_id5': str(dog[5].dog_id),
-               'dog_id6': str(dog[6].dog_id),
-               'dog_id7': str(dog[7].dog_id),
-               'dog_id8': str(dog[8].dog_id),
-               'dog_id9': str(dog[9].dog_id),
+    doggies = Dog.objects.all().order_by('-average')[:10]
+    dog = []
+    found = []
+    for i in range(10):
+        dog.append(str(doggies[i].picture))
+        m = re.search('static/(.+?)$', dog[i])
+        found.append(m.group(1))
+
+    context = {'dog_id0': str(found[0]),
+               'dog_id1': str(found[1]),
+               'dog_id2': str(found[2]),
+               'dog_id3': str(found[3]),
+               'dog_id4': str(found[4]),
+               'dog_id5': str(found[5]),
+               'dog_id6': str(found[6]),
+               'dog_id7': str(found[7]),
+               'dog_id8': str(found[8]),
+               'dog_id9': str(found[9]),
                }
     return render(request, 'home.html', {"output": context})
 
