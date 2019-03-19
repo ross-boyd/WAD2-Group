@@ -47,8 +47,9 @@ def vote(request):
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
-            
-            dog = Dog.objects.get_or_create(dog_id=current_user.last_voted_id)[0]
+
+            dog = Dog.objects.get_or_create(
+                dog_id=current_user.last_voted_id)[0]
 
             doggies = Dog.objects.all()
             dug = []
@@ -63,10 +64,12 @@ def vote(request):
             current_user.last_voted_id += 1
             current_user.save()
 
-    next_Dog = current_user.last_voted_id
-            comment = Comment.objects.get_or_create(post=dog, author=current_user)[0]
-            comment.save()
+            next_Dog = current_user.last_voted_id
+            comment = Comment.objects.get_or_create(
+                post=dog, author=current_user)[0]
+
             comment.text = request.POST["comment"]
+            comment.save()
 
             dug.append(str(doggies[current_user.last_voted_id].picture))
             m = re.search('static/(.+?)$', dug[0])
