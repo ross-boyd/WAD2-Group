@@ -67,10 +67,14 @@ def vote(request):
             dug.append(str(doggies[current_user.last_voted_id].picture))
             m = re.search('static/(.+?)$', dug[0])
             found.append(m.group(1))
+        else:
+            print(form.errors)
 
     context = {'dogID': found[0]}
 
     return render(request, 'vote.html', {"output": context})
+
+    return render(request, 'vote.html', {"output": {id: str(next_Dog)}})
 
 
 @login_required
@@ -93,6 +97,31 @@ def upload(request):
 def profile(request, username):
     print(username)
     User = get_user_model()
+    
+    print(User)
     user = User.objects.get(username=username)
-    print("HI")
-    return render(request, 'profile.html', {'profile_user': user})
+    owner_dogs = Dog.objects.all().filter(owner=user).order_by('-average')
+
+    display_dogs = []
+    print(owner_dogs)
+    
+    found = []
+    for i in range(10):
+        display_dogs.append(str(owner_dogs[i].picture))
+        m = re.search('static/(.+?)$', display_dogs[i])
+        found.append(m.group(1))
+        print(owner_dogs[i].average)
+
+    context1 = {'dog_id0': str(found[0]),
+               'dog_id1': str(found[1]),
+               'dog_id2': str(found[2]),
+               'dog_id3': str(found[3]),
+               'dog_id4': str(found[4]),
+               'dog_id5': str(found[5]),
+               'dog_id6': str(found[6]),
+               'dog_id7': str(found[7]),
+               'dog_id8': str(found[8]),
+               'dog_id9': str(found[9]),
+               }
+
+    return render(request, 'profile.html', {'profile_user': user, 'output': context1})
