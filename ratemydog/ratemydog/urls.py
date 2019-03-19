@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth.views import LoginView
+from django.conf.urls import url
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
@@ -23,4 +24,5 @@ urlpatterns = [
     path('', include('bestboy.urls')),
     path('users/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
+    url(r'^(?P<username>\w+)/', include('bestboy.urls')),
 ]
