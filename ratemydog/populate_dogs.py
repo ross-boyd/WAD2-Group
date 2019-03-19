@@ -49,7 +49,6 @@ def save_dog(name, dog_id, breed, picture, owner):
 
 
 def rate_dog(id, score, comment, user):
-    print(id)
     d = Dog.objects.get(dog_id=id)
     d.score += score
     d.votes += 1
