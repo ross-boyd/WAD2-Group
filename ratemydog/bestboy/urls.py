@@ -1,5 +1,5 @@
 from django.urls import path
-
+from django.conf.urls import url
 from . import views
 
 urlpatterns = [
@@ -7,5 +7,5 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('vote/', views.vote, name='vote'),
     path('upload/', views.upload, name='upload'),
-    #path('profile/', views.profile, name='profile')
+    path('profile/<username>/', views.profile, name='profile')
 ]

@@ -40,8 +40,9 @@ def vote(request):
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
+            
             dog = Dog.objects.get_or_create(dog_id=current_user.last_voted_id)[0]
-
+            
             dog.rating += float(request.POST["slider_value"])
             dog.votes += 1
 
@@ -51,7 +52,7 @@ def vote(request):
             current_user.last_voted_id += 1
             current_user.save()
 
-    next_Dog = current_user.last_voted_id+1
+    next_Dog = current_user.last_voted_id
 
     return render(request, 'vote.html', {"output": {id: str(next_Dog)}})
 
@@ -71,3 +72,11 @@ def upload(request):
         dog.save()
 
     return render(request, 'upload.html')
+
+
+def profile(request, username):
+    print(username)
+    User = get_user_model()
+    user = User.objects.get(username=username)
+    print("HI")
+    return render(request, 'profile.html', {'profile_user': user})
