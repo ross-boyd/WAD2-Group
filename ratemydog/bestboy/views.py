@@ -35,6 +35,13 @@ def index(request):
 def vote(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
+    doggies = Dog.objects.all()
+    dug = []
+    found = []
+
+    dug.append(str(doggies[current_user.last_voted_id].picture))
+    m = re.search('static/(.+?)$', dug[0])
+    found.append(m.group(1))
 
     # Submits dog rating when button is pressed
     if request.method == "POST":
@@ -42,7 +49,11 @@ def vote(request):
         if form.is_valid():
             
             dog = Dog.objects.get_or_create(dog_id=current_user.last_voted_id)[0]
-            
+
+            doggies = Dog.objects.all()
+            dug = []
+            found = []
+
             dog.rating += float(request.POST["slider_value"])
             dog.votes += 1
 
@@ -52,13 +63,18 @@ def vote(request):
             current_user.last_voted_id += 1
             current_user.save()
 
-            comment = Comment.objects.get_or_create(post=dog, author=current_user)[0]
-            comment.text = request.POST["comment"]
-            comment.save()
-
     next_Dog = current_user.last_voted_id
+            comment = Comment.objects.get_or_create(post=dog, author=current_user)[0]
+            comment.save()
+            comment.text = request.POST["comment"]
 
-    return render(request, 'vote.html', {"output": {id: str(next_Dog)}})
+            dug.append(str(doggies[current_user.last_voted_id].picture))
+            m = re.search('static/(.+?)$', dug[0])
+            found.append(m.group(1))
+
+    context = {'dogID': found[0]}
+
+    return render(request, 'vote.html', {"output": context})
 
 
 @login_required
