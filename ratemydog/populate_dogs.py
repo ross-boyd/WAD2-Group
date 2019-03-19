@@ -25,6 +25,12 @@ def populate():
         super_user = User.objects.get(username="SUPERUSER")
         test_user = User.objects.get(username="TESTUSER")
 
+    with open('comments.txt', 'r') as f:
+        comments = []
+        for line in f:
+            comments.append(line)
+    f.close()
+
     for id in range(1, 102):
         save_dog("Dog" + str(id), id,
                  random.choice(breeds),
