@@ -8,13 +8,12 @@ from bestboy.forms import RatingForm, UploadForm
 import re
 
 
+
 def index(request):
     doggies = Dog.objects.all().order_by('-average')[:10]
-    dog = []
     found = []
     for i in range(10):
-        dog.append(str(doggies[i].picture))
-        m = re.search('static/(.+?)$', dog[i])
+        m = re.search('static/(.+?)$', str(doggies[i].picture))
         found.append(m.group(1))
 
     context = {'dog_id0': str(found[0]),
@@ -38,26 +37,27 @@ def vote(request):
     # Submits dog rating when button is pressed
     if request.method == "POST":
         form = RatingForm(request.POST)
+        print(request.POST)
         if form.is_valid():
-            current_user.last_voted_id += 1
-            current_user.save()
-
             dog = Dog.objects.get(dog_id=current_user.last_voted_id)
             dog.score += float(request.POST["slider_value"])
             dog.votes += 1
             dog.average = dog.score / dog.votes
             dog.save()
 
+            current_user.last_voted_id += 1
+            current_user.save()
+
             rating = form.save(commit=False)
             rating.dog = dog
             rating.user = current_user
             rating.score = request.POST["slider_value"]
-            rating.text = request.POST["comment"]
             rating.save()
 
         return redirect('/vote/')
 
     else:
+        form = RatingForm()
         doggies = Dog.objects.all()
         m = re.search('static/(.+?)$',
                       str(doggies[current_user.last_voted_id].picture))
@@ -79,19 +79,23 @@ def upload(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
     if request.method == "POST":
-        print(request.POST)
-        last_dog = Dog.objects.latest('dog_id')
-        # Submits new dog when button is pressed
-        dog = Dog.objects.get_or_create(dog_id=last_dog.dog_id+1,
-                                        owner=current_user)[0]
-        dog.name = request.POST['name']
-        dog.picture = request.FILES['image']
-        dog.save()
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            dog = form.save(commit=False)  
+            last_dog = Dog.objects.latest('dog_id')
+            dog.dog_id = last_dog.dog_id + 1
+            dog.owner = current_user
+            dog.name = request.POST['name']
+            dog.picture = form.clean_picture()
+            dog.save()
 
         return redirect('/upload/')
 
     else:
-        return render(request, 'upload.html')
+        form = UploadForm()
+        return render(request, 'upload.html', {'form': form})
+
+
 
 
 def profile(request, username):
@@ -119,9 +123,9 @@ def profile(request, username):
         print('less than 10')
         for i in range(owner_dogs.count()):
             display_dogs.append(str(owner_dogs[i].picture))
-
-            # m = re.search('static/(.+?)$', display_dogs[i])
-            # print(m)
+            
+            m = re.search('static/(.+?)$', display_dogs[i])
+            #print(m)
 
             found.append(display_dogs[i])
             print(owner_dogs[i].average)
