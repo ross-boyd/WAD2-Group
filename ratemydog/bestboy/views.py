@@ -39,7 +39,7 @@ def vote(request):
         form = RatingForm(request.POST)
         print(request.POST)
         if form.is_valid():
-            dog = Dog.objects.get(dog_id=current_user.last_voted_id)
+            dog = Dog.objects.get(dog_id=current_user.last_voted_id+1)
             dog.score += float(request.POST["slider_value"])
             dog.votes += 1
             dog.average = dog.score / dog.votes
@@ -71,7 +71,8 @@ def vote(request):
 
         return render(request, 'vote.html',
                       {"outputImg": img, "dogInfo": dogName,
-                       "ownerInfo": ownerName, "comments": commentsDict})
+                       "ownerInfo": ownerName, "comments": commentsDict, 
+                       "form": form})
 
 
 @login_required
