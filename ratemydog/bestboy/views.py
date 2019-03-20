@@ -89,7 +89,6 @@ def upload(request):
 
     return render(request, 'upload.html')
 
-
 def profile(request, username):
     print(username)
     User = get_user_model()
@@ -99,25 +98,38 @@ def profile(request, username):
     owner_dogs = Dog.objects.all().filter(owner=user).order_by('-average')
 
     display_dogs = []
-    print(owner_dogs)
-    
     found = []
-    for i in range(10):
-        display_dogs.append(str(owner_dogs[i].picture))
-        m = re.search('static/(.+?)$', display_dogs[i])
-        found.append(m.group(1))
-        print(owner_dogs[i].average)
+    context1 = {}
+    counter = 0
+    print(owner_dogs)
+    print(owner_dogs.count())
+    
+    # if the user has no dogs returns empty dictionary
+    if owner_dogs.count() <= 0:
+        return render(request, 'profile.html', {'profile_user': user, 'output': context1})
 
-    context1 = {'dog_id0': str(found[0]),
-               'dog_id1': str(found[1]),
-               'dog_id2': str(found[2]),
-               'dog_id3': str(found[3]),
-               'dog_id4': str(found[4]),
-               'dog_id5': str(found[5]),
-               'dog_id6': str(found[6]),
-               'dog_id7': str(found[7]),
-               'dog_id8': str(found[8]),
-               'dog_id9': str(found[9]),
-               }
+    # if the user has less than 10 dogs return as many as it has
+    elif owner_dogs.count() < 10: 
+        print('less than 10')
+        for i in range(owner_dogs.count()):
+            display_dogs.append(str(owner_dogs[i].picture))
+            m = re.search('static/(.+?)$', display_dogs[i])
+            found.append(m.group(1))
+            print(owner_dogs[i].average)
+            
+            context1['dog_id' + str(counter)] = str(found[counter])
+            counter += 1
+    
+    # if the user has more than ten dogs
+    else:
+        for i in range(10):
+            display_dogs.append(str(owner_dogs[i].picture))
+            m = re.search('static/(.+?)$', display_dogs[i])
+            found.append(m.group(1))
+            print(owner_dogs[i].average)
+
+            
+            context1['dog_id' + str(counter)] = str(found[counter])
+            counter += 1
 
     return render(request, 'profile.html', {'profile_user': user, 'output': context1})
