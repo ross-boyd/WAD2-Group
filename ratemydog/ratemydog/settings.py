@@ -26,9 +26,9 @@ MEDIA_ROOT = MEDIA_DIR
 SECRET_KEY = 'zsj771#lu(j&v@69scmhheeo=yjs__b)!pq696ym)uud1p-p8g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 
 # Application definition
