@@ -20,6 +20,8 @@ def populate():
             username="SUPERUSER", password="123", email="ding@dong.com")
         test_user = User.objects.create_user(
             username="TESTUSER", password="123")
+        new_user = User.objects.create_user(
+            username="NEWUSER", password="123")
     except:
         super_user = User.objects.get(username="SUPERUSER")
         test_user = User.objects.get(username="TESTUSER")
