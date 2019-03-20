@@ -105,7 +105,7 @@ def profile(request, username):
     user = User.objects.get(username=username)
     current_user = User.objects.get(username=username)
 
-    dog_owner = Dog.objects.all().filter(owner=user).order_by('-average')
+    dog_owner = Dog.objects.all().filter(owner=user).order_by('-average')[:10]
     voted_dogs = Dog.objects.all().filter(dog_id__lte=current_user.last_voted_id).order_by('-average')[:10]
     print(voted_dogs)
     display_dogs = []
@@ -120,38 +120,10 @@ def profile(request, username):
         found2.append(m.group(1))
         favourite_context["dog_id" + str(i)] = str(found2[i])
 
-    # if the user has no dogs returns empty dictionary
-    if dog_owner.count() <= 0:
-        return render(request, 'profile.html',
-                      {'profile_user': user, 'output': top_context, "output2": favourite_context})
-
-    # if the user has less than 10 dogs return as many as it has
-    elif dog_owner.count() < 10:
-        print('less than 10')
-        for i in range(dog_owner.count()):
-            display_dogs.append(str(dog_owner[i].picture))
-
-            m = re.search('static/(.+?)$', display_dogs[i])
-            # print(m)
-
-            found.append(display_dogs[i])
-            print(dog_owner[i].average)
-
-            top_context['dog_id' + str(counter)] = str(found[counter])
-            counter += 1
-
-    # if the user has more than ten dogs
-    else:
-        for i in range(10):
-            display_dogs.append(str(dog_owner[i].picture))
-
-            m = re.search('static/(.+?)$', display_dogs[i])
-            found.append(m.group(1))
-
-            print(dog_owner[i].average)
-
-            top_context['dog_id' + str(counter)] = str(found[counter])
-            counter += 1
+    for i in range(len(dog_owner)):
+        m = re.search('static/(.+?)$', str(dog_owner[i].picture))
+        found.append(m.group(1))
+        top_context["dog_id" + str(i)] = str(found[i])
 
     return render(request, 'profile.html',
                   {'profile_user': user, 'output': top_context, "output2": favourite_context})
