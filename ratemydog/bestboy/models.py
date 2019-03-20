@@ -18,7 +18,7 @@ class Dog(models.Model):
     votes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return "DOG: " + str(self.dog_id)
 
 
 class Rating(models.Model):
