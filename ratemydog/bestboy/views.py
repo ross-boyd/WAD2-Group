@@ -77,6 +77,8 @@ def vote(request):
 def upload(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
+    print("HI")
+    print(request.FILES)
     if request.method == "POST":
         print(request.POST)
         last_dog = Dog.objects.latest('dog_id')
@@ -88,6 +90,7 @@ def upload(request):
         dog.save()
 
     return render(request, 'upload.html')
+
 
 def profile(request, username):
     print(username)
