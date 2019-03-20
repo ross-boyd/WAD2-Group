@@ -50,7 +50,7 @@
     <div class="row">
         {% for id,url in output.items %}
         {% with url as image_path %}
-        <div class="img__wrap mx-auto d-block" style="position: relative">
+        <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
             <img src="{% static image_path %}" class="rounded">
             <div class="img__description rounded mx-auto"
                 style="overflow: hidden; position: absolute; text-align: center">

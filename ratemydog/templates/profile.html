@@ -2,10 +2,6 @@
 {% load staticfiles %}
 {% block content %}
 <style>
-    body {
-        background: -webkit-linear-gradient(left, #ED5656, #ED5656);
-    }
-
     .emp-profile {
         padding: 3%;
         margin-top: 3%;
@@ -66,40 +62,66 @@
         display: block;
     }
 </style>
-<div class="jumobtron">
+<!-- <div class="jumobtron">
     <div class="container">
         <h1 class="display-3">{{profile_user.get_username}}</h1>
     </div>
 </div>
-<div class="container emp-profile">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="profile-head">
-                <h5>
-                    {{profile_user.get_username}}'s Profile Page
-                </h5>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <br>
-            <label>{{profile_user.get_username}}'s Top Ten Rated Uploads</label>
-        </div>
-    </div>
-    <div class="row">
-        {% for id,url in output.items %}
-        {% with url as image_path %}
-        <div class="img__wrap mx-auto d-block" style="padding: 2%; position: relative;">
-            <img src="{% static image_path %}" class="rounded">
-            <div class="img__description rounded mx-auto"
-                style="overflow: hidden; position: absolute; text-align: center">
-                <span style="display: inline-block">Dog #{{id}}</span>
-                <span style="display: inline-block">{{url}}</span>
-            </div>
-        </div>
-        {% endwith %}
-        {% endfor %}
+ -->
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">{{profile_user.get_username}}'s Profile</h1>
+        <p></p>
     </div>
 </div>
-{% endblock %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm m-3 border rounded">
+            <div class="row">
+                <div class="col-md-8">
+                    <br>
+                    <label class="ml-3 display-4">Top Rated Uploads</label>
+                </div>
+            </div>
+            <div class="row">
+                {% for id,url in output.items %}
+                {% with url as image_path %}
+                <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
+                    <img src="{% static image_path %}" class="rounded">
+                    <div class="img__description rounded mx-auto"
+                        style="overflow: hidden; position: absolute; text-align: center">
+                        <span style="display: inline-block">Dog #{{id}}</span>
+                        <span style="display: inline-block">{{url}}</span>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm m-3 border rounded">
+            <div class="row">
+                <div class="col-md-8">
+                    <br>
+                    <label class="ml-3 display-4">Favourite Dogs</label>
+                </div>
+            </div>
+            <div class="row">
+                <!-- This needs to be their favourite dogs-->
+                {% for id,url in output.items %}
+                {% with url as image_path %}
+                <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
+                    <img src="{% static image_path %}" class="rounded">
+                    <div class="img__description rounded mx-auto"
+                        style="overflow: hidden; position: absolute; text-align: center">
+                        <span style="display: inline-block">Dog #{{id}}</span>
+                        <span style="display: inline-block">{{url}}</span>
+                    </div>
+                </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

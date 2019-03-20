@@ -84,3 +84,27 @@ border: 10px;
 .jumbotron{
     background-color:#ED5656
 }
+.img__wrap {
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+}
+
+.img__description {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ED5656;
+    color: #fff;
+    visibility: hidden;
+    opacity: 0.7;
+
+    /* transition effect. not necessary */
+    transition: opacity .2s, visibility .2s;
+}
+
+.img__wrap:hover .img__description {
+    visibility: visible;
+    opacity: 0.7;
+}
