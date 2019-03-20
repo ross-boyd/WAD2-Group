@@ -38,8 +38,6 @@ def vote(request):
     doggies = Dog.objects.all()
     dug = []
     found = []
-    current_user.last_voted_id = 0
-
     dug.append(str(doggies[current_user.last_voted_id].picture))
     m = re.search('static/(.+?)$', dug[0])
     found.append(m.group(1))
@@ -47,14 +45,14 @@ def vote(request):
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
+            current_user.last_voted_id += 1
+            current_user.save()
+
             dog = Dog.objects.get(dog_id=current_user.last_voted_id)
             dog.score += float(request.POST["slider_value"])
             dog.votes += 1
             dog.average = dog.score / dog.votes
             dog.save()
-
-            current_user.last_voted_id += 1
-            current_user.save()
 
             rating = Rating.objects.get_or_create(dog=dog, user=current_user)[0]
             rating.score = request.POST["slider_value"]
@@ -64,7 +62,6 @@ def vote(request):
             doggies = Dog.objects.all()
             dug = []
             found = []
-
             dug.append(str(doggies[current_user.last_voted_id].picture))
             m = re.search('static/(.+?)$', dug[0])
             found.append(m.group(1))
@@ -74,8 +71,6 @@ def vote(request):
     context = {'dogID': found[0]}
 
     return render(request, 'vote.html', {"output": context})
-
-    return render(request, 'vote.html', {"output": {id: str(next_Dog)}})
 
 
 @login_required
