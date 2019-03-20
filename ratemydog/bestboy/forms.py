@@ -39,9 +39,11 @@ class UploadForm(forms.ModelForm):
 
     def clean_picture(self):
         image = self.cleaned_data.get('picture', None)
-        
+
         extension = os.path.splitext(image.name)[1][1:].lower()
         if extension in self.ALLOWED_FILE_TYPES:
+            if image.size > 5242880:
+                raise forms.ValidationError('File is greater than 5MB')
             return image
         else:
             print(extension)
