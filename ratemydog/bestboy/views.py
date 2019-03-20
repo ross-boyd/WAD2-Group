@@ -57,7 +57,11 @@ def vote(request):
 
     else:
         form = RatingForm()
-        doggies = Dog.objects.all()
+        doggies = Dog.objects.exclude(owner=current_user)
+        if doggies.count() == 0:
+                response = render_to_response("nodog.html")
+                return response
+
         m = re.search('static/(.+?)$',
                       str(doggies[current_user.last_voted_id].picture))
         img = {'dogID': m.group(1)}
