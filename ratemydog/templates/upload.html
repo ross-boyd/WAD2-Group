@@ -4,19 +4,19 @@
 {% block content %}
 
 <div class="jumbotron" style="background-color:#ED5656">
-    <div class="container">
-        <h1 class="display-3">Upload</h1>
-        <p>Upload a dog and allow other users to rate it!</p>
-    </div>
+  <div class="container">
+    <h1 class="display-3">Upload</h1>
+    <p>Upload a dog and allow other users to rate it!</p>
+  </div>
 </div>
 <div class="container">
 
   <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
-        <label>Dog name</label>
-        <input id="id_name" type="text" class="form-control" name="name">
-        <small class="form-text text-muted">If you are unsure, leave it blank and we'll give it a name :)</small>
+      <label>Dog name</label>
+      <input id="id_name" type="text" class="form-control" name="name">
+      <small class="form-text text-muted">If you are unsure, leave it blank and we'll give it a name :)</small>
     </div>
     <!-- The following is largely sourced from BS4 #custom-file-input-->
     <div class="input-group mb-3">
@@ -29,6 +29,16 @@
     <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
   </form>
 </div>
+
+<script>
+  //Minorly modified version of script provided here https://github.com/twbs/bootstrap/issues/23994#issuecomment-331979297
+  $('.custom-file-input').on('change', function () {
+    let fileName = $(this).val().split('\\').pop();
+    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+  });
+  //End
+</script>
+
 
 
 
