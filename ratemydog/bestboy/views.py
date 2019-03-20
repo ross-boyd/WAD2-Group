@@ -116,8 +116,11 @@ def profile(request, username):
         print('less than 10')
         for i in range(owner_dogs.count()):
             display_dogs.append(str(owner_dogs[i].picture))
-            m = re.search('static/(.+?)$', display_dogs[i])
-            found.append(m.group(1))
+            
+            # m = re.search('static/(.+?)$', display_dogs[i])
+            #print(m)
+
+            found.append(display_dogs[i])
             print(owner_dogs[i].average)
             
             context1['dog_id' + str(counter)] = str(found[counter])
@@ -127,8 +130,10 @@ def profile(request, username):
     else:
         for i in range(10):
             display_dogs.append(str(owner_dogs[i].picture))
+            
             m = re.search('static/(.+?)$', display_dogs[i])
             found.append(m.group(1))
+            
             print(owner_dogs[i].average)
 
             

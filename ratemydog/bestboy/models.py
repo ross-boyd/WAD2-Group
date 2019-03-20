@@ -23,7 +23,7 @@ class Dog(models.Model):
                              default='Unkown')
     score = models.FloatField(default=0)
     average = models.FloatField(default=0)
-    picture = models.ImageField('img', upload_to='bestboy/dog_pics/')
+    picture = models.ImageField('img', upload_to='bestboy/img/dog_pics/')
     votes = models.IntegerField(default=0)
 
     def __str__(self):

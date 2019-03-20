@@ -43,7 +43,7 @@
             <button type="button" class="btn btn-outline-success">Score: <span id="demoOutput"></span>/10</button>
             <input type="hidden" , name="slider_value" , id="slider_value">
             <input type="hidden" , name="dog_id" , id="dog_id">
-            <p>This is {dogname}. {dogname} was uploaded by <a href="/">{owner}</a>.</p>
+            <p>This is {{ Dog.name }}. {{ Dog.name }} was uploaded by <a href="/">{{ Dog.owner }}</a>.</p>
         </div>
     </div>
 </div>
