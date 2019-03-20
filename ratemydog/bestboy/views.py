@@ -71,7 +71,12 @@ def vote(request):
 
         dogName = {'dogName': dog.name}
         ownerName = {'ownerName': dog.owner}
-        commentsDict = {'user0': 'comment0', 'user1': 'comment1'}
+        comments = Rating.objects.all().filter(dog=dog)
+        commentsDict = {}
+        for comment in comments:
+                commentsDict[comment.user] = comment.text
+        dogName = {'dogName': dog.name}
+        ownerName = {'ownerName': dog.owner}
 
         return render(request, 'vote.html',
                       {"outputImg": img, "dogInfo": dogName,
