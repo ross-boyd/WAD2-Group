@@ -78,7 +78,10 @@ def upload(request):
         dog.picture = request.FILES['image']
         dog.save()
 
-    return render(request, 'upload.html')
+        return redirect('/upload/')
+
+    else:
+        return render(request, 'upload.html')
 
 
 def profile(request, username):
