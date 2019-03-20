@@ -37,7 +37,6 @@ def populate():
         rate_dog(id, round(random.uniform(0, 10), 1), random.choice(comments), 
                  test_user)
 
-
 def save_dog(name, dog_id, breed, picture, owner):
     d = Dog.objects.get_or_create(owner=owner, dog_id=dog_id)[0]
     d.name = name
@@ -52,12 +51,14 @@ def rate_dog(id, score, comment, user):
     d.votes += 1
     d.average = d.score / d.votes
     d.save()
-
+    
     r = Rating.objects.get_or_create(dog=d, user=user)[0]
     r.score = score
     r.text = comment
     r.save()
 
+    user.last_voted_id += 1
+    user.save()
 
 if __name__ == '__main__':
 
