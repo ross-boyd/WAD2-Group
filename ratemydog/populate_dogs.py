@@ -8,12 +8,11 @@ django.setup()
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from bestboy.models import Dog, Rating
+from bestboy.choices import *
 
 
 def populate():
-
     directory = os.getcwd() + "/bestboy/static/bestboy/img/dog_pics"
-    breeds = ["GS", "DH", "DM"]
 
     User = get_user_model()
     try:
@@ -29,13 +28,12 @@ def populate():
         comments = []
         for line in f:
             comments.append(line)
-    f.close()
-
     for id in range(1, 102):
         save_dog("Dog" + str(id), id,
-                 random.choice(breeds),
+                 random.choice(get_breeds())[0],
                  directory + "/dog" + str(id) + ".jpg", super_user)
-        rate_dog(id, round(random.uniform(0, 10), 1), random.choice(comments), test_user)
+        rate_dog(id, round(random.uniform(0, 10), 1), random.choice(comments), 
+                 test_user)
 
 
 def save_dog(name, dog_id, breed, picture, owner):
@@ -44,8 +42,6 @@ def save_dog(name, dog_id, breed, picture, owner):
     d.picture = picture
     d.breed = breed
     d.save()
-
-    return d
 
 
 def rate_dog(id, score, comment, user):
@@ -60,7 +56,6 @@ def rate_dog(id, score, comment, user):
     r.text = comment
     r.save()
 
-    return d, r
 
 if __name__ == '__main__':
 

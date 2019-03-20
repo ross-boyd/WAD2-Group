@@ -5,16 +5,17 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from bestboy.choices import *
 
+
 class Dog(models.Model):
     dog_id = models.IntegerField(default=0)
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
-    breed = models.CharField(max_length=20, choices=BREED_CHOICES,
-                             default='Unkown')
+    breed = models.CharField(max_length=100, choices=get_breeds(), default="")
     score = models.FloatField(default=0)
     average = models.FloatField(default=0)
-    picture = models.ImageField('img', upload_to='bestboy/img/dog_pics/', null=True, blank=True)
+    picture = models.ImageField('img', upload_to='bestboy/img/dog_pics/', 
+                                null=True, blank=True)
     votes = models.IntegerField(default=0)
 
     def __str__(self):

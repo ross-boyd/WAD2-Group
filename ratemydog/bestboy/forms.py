@@ -21,8 +21,8 @@ class UploadForm(forms.ModelForm):
     ALLOWED_TYPES = ['jpg', 'jpeg', 'png', 'gif']
 
     name = forms.CharField(max_length=100, widget=forms.TextInput)
-    breed = forms.ChoiceField(choices=BREED_CHOICES,
-                              widget=forms.Select(choices=BREED_CHOICES))
+    breed = forms.ChoiceField(choices=get_breeds(),
+                              widget=forms.Select(choices=get_breeds()))
     picture = forms.ImageField(widget=forms.FileInput)
 
     name.widget.attrs.update({'id': 'id_name', 'class': 'form-control',
@@ -42,7 +42,7 @@ class UploadForm(forms.ModelForm):
         if not image:
             raise forms.ValidationError('Missing image file')
         try:
-            extension = os.path.splitext(image.name)[1][1:].lower()
+            extension = os.path.splitext(image.name)[1][1:].lower() 
             if extension in self.ALLOWED_TYPES:
                 if image.size > 5242880:
                     raise forms.ValidationError('File is greater than 5MB')
