@@ -61,6 +61,7 @@
         object-fit: cover;
         display: block;
     }
+
 </style>
 <!-- <div class="jumobtron">
     <div class="container">
@@ -90,7 +91,7 @@
                 <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
                     <img src="{% static image_path %}" class="rounded">
                     <div class="img__description rounded mx-auto"
-                        style="overflow: hidden; position: absolute; text-align: center">
+                         style="overflow: hidden; position: absolute; text-align: center">
                         <span style="display: inline-block">Dog #{{id}}</span>
                         <span style="display: inline-block">{{url}}</span>
                     </div>
@@ -107,13 +108,12 @@
                 </div>
             </div>
             <div class="row">
-                <!-- This needs to be their favourite dogs-->
-                {% for id,url in output.items %}
+                {% for id,url in output2.items %}
                 {% with url as image_path %}
                 <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
                     <img src="{% static image_path %}" class="rounded">
                     <div class="img__description rounded mx-auto"
-                        style="overflow: hidden; position: absolute; text-align: center">
+                         style="overflow: hidden; position: absolute; text-align: center">
                         <span style="display: inline-block">Dog #{{id}}</span>
                         <span style="display: inline-block">{{url}}</span>
                     </div>
