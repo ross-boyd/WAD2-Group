@@ -33,6 +33,7 @@ body {
     border-radius: 0 !important;
 }
 
+/*w3 schools */
 /* The slider itself */
 .slider {
 -webkit-appearance: none;
@@ -41,7 +42,7 @@ height: 15px;
 border-radius: 5px;  
 background: #d3d3d3;
 outline: none;
-opacity: 0.7;
+opacity: 1;
 -webkit-transition: .2s;
 transition: opacity .2s;
 }
@@ -56,10 +57,10 @@ opacity: 1; /* Fully shown on mouse-over */
 .slider::-webkit-slider-thumb {
 -webkit-appearance: none;
 appearance: none;
-width: 75px;
-height: 75px;
+width: 50px;
+height: 50px;
 border-radius: 50%; 
-background: url('../img/slider_dog.gif') no-repeat center center;
+background-color: #ED5656;
 cursor: pointer;
 background-position: center center; /* First value is from left and second is from top. You can use use number as well*/
 background-repeat: no-repeat;
@@ -68,14 +69,18 @@ border: 10px;
 }
 
 .slider::-moz-range-thumb {
-width: 75px;
-height: 75px;
+width: 50px;
+height: 50px;
 border-radius: 50%;
-background: url('../img/slider_dog.gif') no-repeat center center;
+background-color: #ED5656;
 cursor: pointer;
 background-position: center center; /* First value is from left and second is from top. You can use use number as well*/
 background-repeat: no-repeat;
 background-size: cover;
 border: 10px;
 }
-/*w3 schools */
+/*w3 schools end */
+
+.jumbotron{
+    background-color:#ED5656
+}

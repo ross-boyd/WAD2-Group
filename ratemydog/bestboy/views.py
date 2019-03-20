@@ -8,13 +8,12 @@ from bestboy.forms import RatingForm, UploadForm
 import re
 
 
+
 def index(request):
     doggies = Dog.objects.all().order_by('-average')[:10]
-    dog = []
     found = []
     for i in range(10):
-        dog.append(str(doggies[i].picture))
-        m = re.search('static/(.+?)$', dog[i])
+        m = re.search('static/(.+?)$', str(doggies[i].picture))
         found.append(m.group(1))
 
     context = {'dog_id0': str(found[0]),
@@ -114,7 +113,7 @@ def profile(request, username):
         for i in range(owner_dogs.count()):
             display_dogs.append(str(owner_dogs[i].picture))
             
-            # m = re.search('static/(.+?)$', display_dogs[i])
+            m = re.search('static/(.+?)$', display_dogs[i])
             #print(m)
 
             found.append(display_dogs[i])
