@@ -52,9 +52,15 @@ def vote(request):
     else:
         form = RatingForm()
         doggies = Dog.objects.exclude(owner=current_user)
-        if doggies.count() == 0:
-            response = render_to_response("nodog.html")
-            return response
+        vote = False
+        for dog in doggies:
+            if Rating.objects.all().filter(dog=dog, user=current_user).count() == 0:
+                vote = True
+                break
+        if doggies.count() == 0 or vote is False:
+
+                response = render_to_response("nodog.html")
+                return response
 
         m = re.search('static/(.+?)$',
                       str(doggies[current_user.last_voted_id].picture))
