@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -35,8 +35,6 @@ def index(request):
 def vote(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
-    doggies = Dog.objects.all()
-    m = re.search('static/(.+?)$', str(doggies[current_user.last_voted_id].picture))
     # Submits dog rating when button is pressed
     if request.method == "POST":
         form = RatingForm(request.POST)
@@ -50,27 +48,26 @@ def vote(request):
             dog.average = dog.score / dog.votes
             dog.save()
 
-            rating = Rating.objects.get_or_create(dog=dog, user=current_user)[0]
+            rating = form.save(commit=False)
+            rating.dog = dog
+            rating.user = current_user
             rating.score = request.POST["slider_value"]
             rating.text = request.POST["comment"]
             rating.save()
 
-            doggies = Dog.objects.all()
-            m = re.search('static/(.+?)$', str(doggies[current_user.last_voted_id].picture))
-        else:
-            print(form.errors)
-
-    context = {'dogID': m.group(1)}
-
-    return render(request, 'vote.html', {"output": context})
-
+        return redirect('/vote/')
+        
+    else:
+        doggies = Dog.objects.all()
+        m = re.search('static/(.+?)$', str(doggies[current_user.last_voted_id].picture))
+        context = {'dogID': m.group(1)}
+        return render(request, 'vote.html', {"output": context})
+        
 
 @login_required
 def upload(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
-    print("HI")
-    print(request.FILES)
     if request.method == "POST":
         print(request.POST)
         last_dog = Dog.objects.latest('dog_id')
