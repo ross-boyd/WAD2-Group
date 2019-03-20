@@ -106,7 +106,7 @@ def profile(request, username):
     current_user = User.objects.get(username=username)
 
     dog_owner = Dog.objects.all().filter(owner=user).order_by('-average')
-    voted_dogs = Dog.objects.all().filter(dog_id__lte=current_user.last_voted_id).order_by('-average')
+    voted_dogs = Dog.objects.all().filter(dog_id__lte=current_user.last_voted_id).order_by('-average')[:10]
     print(voted_dogs)
     display_dogs = []
     found = []
