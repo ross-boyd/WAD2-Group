@@ -8,7 +8,6 @@ from bestboy.forms import RatingForm, UploadForm
 import re
 
 
-
 def index(request):
     doggies = Dog.objects.all().order_by('-average')[:10]
     found = []
@@ -71,7 +70,7 @@ def vote(request):
 
         return render(request, 'vote.html',
                       {"outputImg": img, "dogInfo": dogName,
-                       "ownerInfo": ownerName, "comments": commentsDict, 
+                       "ownerInfo": ownerName, "comments": commentsDict,
                        "form": form})
 
 
@@ -82,7 +81,7 @@ def upload(request):
     if request.method == "POST":
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
-            dog = form.save(commit=False)  
+            dog = form.save(commit=False)
             last_dog = Dog.objects.latest('dog_id')
             dog.dog_id = last_dog.dog_id + 1
             dog.owner = current_user
@@ -95,8 +94,6 @@ def upload(request):
     else:
         form = UploadForm()
         return render(request, 'upload.html', {'form': form})
-
-
 
 
 def profile(request, username):
@@ -124,9 +121,9 @@ def profile(request, username):
         print('less than 10')
         for i in range(owner_dogs.count()):
             display_dogs.append(str(owner_dogs[i].picture))
-            
+
             m = re.search('static/(.+?)$', display_dogs[i])
-            #print(m)
+            # print(m)
 
             found.append(display_dogs[i])
             print(owner_dogs[i].average)
