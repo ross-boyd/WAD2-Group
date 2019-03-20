@@ -26,3 +26,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     url(r'^(?P<username>\w+)/', include('bestboy.urls')),
 ]
+
+handler404 = 'bestboy.views.handler404'
+handler500 = 'bestboy.views.handler500'
+
