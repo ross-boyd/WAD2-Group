@@ -20,7 +20,8 @@ class RatingForm(forms.ModelForm):
 class UploadForm(forms.ModelForm):
     ALLOWED_TYPES = ['jpg', 'jpeg', 'png', 'gif']
 
-    name = forms.CharField(max_length=100, widget=forms.TextInput)
+    name = forms.CharField(max_length=100, widget=forms.TextInput, 
+                           required=False)
     breed = forms.ChoiceField(choices=get_breeds(),
                               widget=forms.Select(choices=get_breeds()))
     picture = forms.ImageField(widget=forms.FileInput)
