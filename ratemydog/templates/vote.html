@@ -16,7 +16,7 @@
 </div>
 <div class="container">
 
-    {% for id,url in output.items %}
+    {% for id,url in outputImg.items %}
     {% with url as image_path %}
     <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
     {% endwith %}
@@ -39,11 +39,18 @@
     <div class="row">
         <div class="col align-self-center" style="padding-top: 2%">
             </br>
-            <!-- <input type="submit" class="btn btn-primary btn-lg" /> -->
-            <button type="button" class="btn btn-outline-success">Score: <span id="demoOutput"></span>/10</button>
             <input type="hidden" , name="slider_value" , id="slider_value">
             <input type="hidden" , name="dog_id" , id="dog_id">
-            <p>This is {{ Dog.name }}. {{ Dog.name }} was uploaded by <a href="/">{{ Dog.owner }}</a>.</p>
+
+            {% for name,nameVal in dogInfo.items %}
+            <p>This is {{ nameVal }}.</p>
+            {% endfor %}
+
+            {% for name,nameVal in ownerInfo.items %}
+            <p>They were uploaded by <a href="{% url 'profile' nameVal %}">{{ nameVal }}</a>.</p>
+            {% endfor %}
+
+            <button type="button" class="btn btn-outline-success">Your rating: <span id="demoOutput"></span>/10</button>
         </div>
     </div>
 </div>
@@ -53,10 +60,10 @@
         <div class="row">
             <div class="col align-self-center">
                 <div class="form-group">
-                    <label for="comment">Comment:</label>
+                    <label class="mt-3" for="comment">Comment:</label>
                     <textarea class="form-control" rows="5" name="comment" id="comment"
                         placeholder="Comments are not required, but remember to be nice :3 woof :)"></textarea>
-                    <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                    <input class="btn btn-primary btn-lg mt-3" type="submit" value="Submit" />
                 </div>
             </div>
         </div>
@@ -67,8 +74,12 @@
 <div class="container">
     <div class="row">
         <div class="col align-self-center">
-            <p>{USERNAME}</p>
-            <p> This dog is a goodboy.</p>
+            {% for name,nameVal in comments.items %}
+            <blockquote class="blockquote">
+                    <p class="mb-0">{{ nameVal }}</p>
+                    <footer class="blockquote-footer"><a href="{% url 'profile' nameVal %}">{{ name }}</a></footer>
+            </blockquote>
+            {% endfor %}
         </div>
     </div>
 </div>
