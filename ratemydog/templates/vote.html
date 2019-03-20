@@ -76,7 +76,7 @@
             {% for name,nameVal in comments.items %}
             <blockquote class="blockquote">
                     <p class="mb-0">{{ nameVal }}</p>
-                    <footer class="blockquote-footer"><a href="{% url 'profile' nameVal %}">{{ name }}</a></footer>
+                    <footer class="blockquote-footer"><a href="{% url 'profile' name %}">{{ name }}</a></footer>
             </blockquote>
             {% endfor %}
         </div>
