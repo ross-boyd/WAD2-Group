@@ -45,8 +45,6 @@ class UploadForm(forms.ModelForm):
         try:
             extension = os.path.splitext(image.name)[1][1:].lower()
             if extension in self.ALLOWED_TYPES:
-                if image.size > 5242880:
-                    raise forms.ValidationError('File is greater than 5MB')
                 return image
             else:
                 raise forms.ValidationError('File types is not allowed')
