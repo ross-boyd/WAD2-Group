@@ -6,7 +6,7 @@ from bestboy.choices import *
 
 class RatingForm(forms.ModelForm):
 
-    placeholderString = 'Comments are not required, but still you should be nice :3 woof :)'
+    placeholderString = 'Comments are not required :3 woof :)'
     text = forms.CharField(widget=forms.Textarea, required=False)
     text.widget.attrs.update({'class': 'form-control', 'rows': '5',
                               'id': 'comment', 'placeholder':
@@ -20,7 +20,7 @@ class RatingForm(forms.ModelForm):
 class UploadForm(forms.ModelForm):
     ALLOWED_TYPES = ['jpg', 'jpeg', 'png', 'gif']
 
-    name = forms.CharField(max_length=100, widget=forms.TextInput, 
+    name = forms.CharField(max_length=100, widget=forms.TextInput,
                            required=False)
     breed = forms.ChoiceField(choices=get_breeds(),
                               widget=forms.Select(choices=get_breeds()))
@@ -43,7 +43,7 @@ class UploadForm(forms.ModelForm):
         if not image:
             raise forms.ValidationError('Missing image file')
         try:
-            extension = os.path.splitext(image.name)[1][1:].lower() 
+            extension = os.path.splitext(image.name)[1][1:].lower()
             if extension in self.ALLOWED_TYPES:
                 if image.size > 5242880:
                     raise forms.ValidationError('File is greater than 5MB')

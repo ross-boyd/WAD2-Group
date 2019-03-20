@@ -10,4 +10,3 @@ def get_breeds():
             BREED_CHOICES.append((str(counter), str(line)))
             counter += 1
     return BREED_CHOICES
-

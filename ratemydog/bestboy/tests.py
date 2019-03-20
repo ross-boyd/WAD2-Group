@@ -30,7 +30,6 @@ class UrlTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
-
     def test_sign_up(self):
         url = reverse('signup')
         response = self.client.get(url)
