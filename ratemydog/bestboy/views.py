@@ -36,11 +36,7 @@ def vote(request):
     User = get_user_model()
     current_user = User.objects.get(username=request.user)
     doggies = Dog.objects.all()
-    dug = []
-    found = []
-    dug.append(str(doggies[current_user.last_voted_id].picture))
-    m = re.search('static/(.+?)$', dug[0])
-    found.append(m.group(1))
+    m = re.search('static/(.+?)$', str(doggies[current_user.last_voted_id].picture))
     # Submits dog rating when button is pressed
     if request.method == "POST":
         form = RatingForm(request.POST)
@@ -60,15 +56,11 @@ def vote(request):
             rating.save()
 
             doggies = Dog.objects.all()
-            dug = []
-            found = []
-            dug.append(str(doggies[current_user.last_voted_id].picture))
-            m = re.search('static/(.+?)$', dug[0])
-            found.append(m.group(1))
+            m = re.search('static/(.+?)$', str(doggies[current_user.last_voted_id].picture))
         else:
             print(form.errors)
 
-    context = {'dogID': found[0]}
+    context = {'dogID': m.group(1)}
 
     return render(request, 'vote.html', {"output": context})
 
