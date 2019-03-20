@@ -31,12 +31,14 @@
           
         <div class="custom-file">
           {{ form.picture }}
+          
           <label class="custom-file-label" for="id_image">Choose file</label>
+          
         </div>
       </div>
       <small class="form-text text-muted" id="pic_comment"></small>
     </div>
-
+    {{ form.picture.errors }}
 
 
     <!-- The following is largely sourced from BS4 #custom-file-input-->

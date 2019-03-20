@@ -96,14 +96,14 @@ def upload(request):
             dog.dog_id = last_dog.dog_id + 1
             dog.owner = current_user
             dog.name = request.POST['name']
-            dog.picture = form.clean_picture()
+            dog.picture = request.FILES['picture']
             dog.save()
 
-        return redirect('/upload/')
-
+            return redirect('/upload/')
     else:
         form = UploadForm()
-        return render(request, 'upload.html', {'form': form})
+
+    return render(request, 'upload.html', {'form': form})
 
 
 def profile(request, username):

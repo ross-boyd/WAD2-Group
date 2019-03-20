@@ -18,13 +18,13 @@ class RatingForm(forms.ModelForm):
 
 
 class UploadForm(forms.ModelForm):
-    ALLOWED_TYPES = ['jpg', 'jpeg', 'png', 'gif']
+    ALLOWED_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif']
 
     name = forms.CharField(max_length=100, widget=forms.TextInput,
                            required=False)
     breed = forms.ChoiceField(choices=get_breeds(),
                               widget=forms.Select(choices=get_breeds()))
-    picture = forms.ImageField(widget=forms.FileInput)
+    picture = forms.FileField(widget=forms.FileInput)
 
     name.widget.attrs.update({'id': 'id_name', 'class': 'form-control',
                               'type': 'text', 'name': 'name'})
@@ -39,14 +39,10 @@ class UploadForm(forms.ModelForm):
 
     def clean_picture(self):
         image = self.cleaned_data.get('picture', None)
-
-        if not image:
-            raise forms.ValidationError('Missing image file')
-        try:
-            extension = os.path.splitext(image.name)[1][1:].lower()
-            if extension in self.ALLOWED_TYPES:
-                return image
-            else:
-                raise forms.ValidationError('File types is not allowed')
-        except Exception as e:
-            raise forms.ValidationError('Can not identify file type')
+        
+        extension = os.path.splitext(image.name)[1][1:].lower()
+        if extension in self.ALLOWED_FILE_TYPES:
+            return image
+        else:
+            print(extension)
+            raise forms.ValidationError('File types is not allowed')
