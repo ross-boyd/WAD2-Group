@@ -21,7 +21,7 @@ class UploadForm(forms.ModelForm):
 
     class Meta:
         model = Dog
-        fields = ('name','breed','picture',)
+        fields = ('name', 'breed', 'picture',)
 
     def clean_picture(self):
         image = self.cleaned_data.get('picture', None)
@@ -31,6 +31,8 @@ class UploadForm(forms.ModelForm):
         try:
             extension = os.path.splitext(image.name)[1][1:].lower()
             if extension in self.ALLOWED_TYPES:
+                if image.size > 5242880:
+                    raise forms.ValidationError('File is greater than 5MB')
                 return image
             else:
                 raise forms.ValidationError('File types is not allowed')
