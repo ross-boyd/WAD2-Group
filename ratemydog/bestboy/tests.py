@@ -1,17 +1,23 @@
 from django.test import TestCase
+from django.test import Client
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.staticfiles import finders
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 import os
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class UrlTests(TestCase):
 
+    def setUp(self):
+        self.client = Client()
+
     def test_home(self):
-        url = reverse('home')
-        response = self.client.get(url)
+        response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
 
     def test_index(self):
@@ -22,7 +28,7 @@ class UrlTests(TestCase):
     def test_vote(self):
         url = reverse('vote')
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_sign_up(self):
         url = reverse('signup')
@@ -61,13 +67,14 @@ class FormsTests(TestCase):
 
 class IndexPageTests(TestCase):
 
-    def test_index_welcome(self):
-        response = self.client.get(reverse('index'))
-        self.assertIn(b'TOP DUGS', response.content)
-
-    def test_base_templates_used(self):
-        response = self.client.get(reverse('index'))
-        self.assertTemplateUsed(response, 'base.html')
+    # def test_base_templates_used(self):
+    #     response = self.client.get(reverse('home'))
+    #     self.assertTemplateUsed(response, 'base.html')
+    #
+    # def test_index_has(self):
+    #     response = self.client.get(reverse('index'))
+    #     self.assertIn(b'RATE MY DOG', response.content)
+    #     self.assertIn(b'The Best Boys'. response.content)
 
     # Navigation testing
     def test_index_link_to_index(self):
@@ -152,5 +159,7 @@ class TemplatesUseBaseTests(TestCase):
         self.assertTemplateUsed(response, 'base.html')
 
     def test_vote_template(self):
+        user = get_user_model()
+        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
         response = self.client.get(reverse('vote'))
         self.assertTemplateUsed(response, 'base.html')

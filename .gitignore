@@ -106,3 +106,6 @@ venv.bak/
 .vscode/
 .idea/
 WAD2_GROUP.iml
+ratemydog/bestboy/migrations/
+ratemydog/users/migrations/
+*.code-workspace

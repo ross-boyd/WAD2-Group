@@ -15,9 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_DIR = os.path.join(BASE_DIR, 'bestboy/static')
 MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL = '/media/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -125,8 +124,10 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-
+ACCOUNT_USERNAME_REQUIRED = True
+# Remove when live... I think
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+#
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
