@@ -26,15 +26,15 @@ def populate():
         super_user = User.objects.get(username="SUPERUSER")
         test_user = User.objects.get(username="TESTUSER")
 
-    with open('comments.txt', 'r') as f:
-        comments = []
-        for line in f:
-            comments.append(line)
+    comments = get_comments()
+    names = get_names()
+    breeds = get_breeds()
+
     for id in range(1, 102):
-        save_dog("Dog" + str(id), id,
-                 random.choice(get_breeds())[0],
+        save_dog(random.choice(names), id,
+                 random.choice(breeds)[0],
                  directory + "/dog" + str(id) + ".jpg", super_user)
-        rate_dog(id, round(random.uniform(0, 10), 1), random.choice(comments), 
+        rate_dog(id, round(random.uniform(0, 10), 1), random.choice(comments),
                  test_user)
 
 def save_dog(name, dog_id, breed, picture, owner):
