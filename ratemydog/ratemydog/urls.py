@@ -25,4 +25,5 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
     url(r'^(?P<username>\w+)/', include('bestboy.urls')),
+    url(r'^(?P<dogid>\w+)/', include('bestboy.urls')),
 ]

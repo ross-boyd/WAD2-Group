@@ -73,12 +73,10 @@ def vote(request):
 
         dogName = {'dogName': dog.name}
         ownerName = {'ownerName': dog.owner}
-        comments = Rating.objects.all().filter(dog=dog)
+        comments = Rating.objects.all().filter(dog=dog).exclude(text="")
         commentsDict = {}
         for comment in comments:
             commentsDict[comment.user] = comment.text
-        dogName = {'dogName': dog.name}
-        ownerName = {'ownerName': dog.owner}
 
         return render(request, 'vote.html',
                       {"outputImg": img, "dogInfo": dogName,
@@ -139,3 +137,26 @@ def profile(request, username):
 
     return render(request, 'profile.html',
                   {'profile_user': user, 'output': top_context, "output2": favourite_context})
+
+
+@login_required
+def dogprofile(request, dogid):
+    dog = Dog.objects.get(dog_id=dogid)
+    comments = Rating.objects.all().filter(dog=dogid)
+    commentsDict = {}
+    for comment in comments:
+        commentsDict[comment.user] = comment.text
+    dogName = {'dogName': dog.name}
+    ownerName = {'ownerName': dog.owner}
+    comments = Rating.objects.all().filter(dog=dog).exclude(text='')
+    commentsDict = {}
+    m = re.search('static/(.+?)$',
+                  str(dog.picture))
+    img = {'dogID': m.group(1)}
+
+    for comment in comments:
+        commentsDict[comment.user] = comment.text
+
+    return render(request, 'dogprofile.html',
+                  {"dogInfo": dogName, "outputImg": img,
+                   "ownerInfo": ownerName, "comments": commentsDict, })
