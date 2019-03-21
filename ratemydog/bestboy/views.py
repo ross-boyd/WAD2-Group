@@ -74,8 +74,6 @@ def vote(request):
         commentsDict = {}
         for comment in comments:
             commentsDict[comment.user] = comment.text
-        dogName = {'dogName': dog.name}
-        ownerName = {'ownerName': dog.owner}
 
         return render(request, 'vote.html',
                       {"outputImg": img, "dogInfo": dogName,
@@ -142,6 +140,13 @@ def dogprofile(request, dogid):
     commentsDict = {}
     for comment in comments:
         commentsDict[comment.user] = comment.text
-    print(dog)
-    return render(request, 'dogprofile.html', {'context': dog},
-                  {'comments': commentsDict})
+    dogName = {'dogName': dog.name}
+    ownerName = {'ownerName': dog.owner}
+    comments = Rating.objects.all().filter(dog=dog)
+    commentsDict = {}
+    for comment in comments:
+        commentsDict[comment.user] = comment.text
+    
+    return render(request, 'dogprofile.html',
+                  {"dogInfo": dogName,
+                   "ownerInfo": ownerName, "comments": commentsDict,})
