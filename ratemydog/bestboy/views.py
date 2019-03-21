@@ -138,8 +138,10 @@ def profile(request, username):
 @login_required
 def dogprofile(request, dogid):
     dog = Dog.objects.get(dog_id=dogid)
+    comments = Rating.objects.all().filter(dog=dogid)
+    commentsDict = {}
+    for comment in comments:
+        commentsDict[comment.user] = comment.text
     print(dog)
-    return render(request, 'dogprofile.html', {'context': dog})
-    
-    
-# look up ^
+    return render(request, 'dogprofile.html', {'context': dog},
+                  {'comments': commentsDict})
