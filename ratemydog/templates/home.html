@@ -28,7 +28,7 @@
         {% with id as dogid %}
 
         <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
-            <img src="{% static image_path %}" class="rounded">
+            <img src="{{ image_path }}" class="rounded">
             <a href="{% url 'dogprofile' dogid %}">
                 <div class="img__description rounded mx-auto"
                     style="overflow: hidden; position: absolute; text-align: center; padding-top: 25%">
