@@ -125,15 +125,15 @@ def profile(request, username):
     for i in range(len(voted_dogs)):
         m = re.search('static/(.+?)$', str(voted_dogs[i].picture))
         found2.append(m.group(1))
-        favourite_context["dog_id" + str(i)] = str(found2[i])
+        favourite_context[str(voted_dogs[i].id)] = str(found2[i])
 
     for i in range(len(dog_owner)):
         m = re.search('static/(.+?)$', str(dog_owner[i].picture))
         if m is None:
-            top_context["dog_id" + str(i)] = str(dog_owner[i].picture)
+            top_context[str(dog_owner[i].id)] = str(dog_owner[i].picture)
         else:
             found.append(m.group(1))
-            top_context["dog_id" + str(i)] = str(found[i])
+            top_context[str(dog_owner[i].id)] = str(found[i])
 
     return render(request, 'profile.html',
                   {'profile_user': user, 'output': top_context, "output2": favourite_context})
