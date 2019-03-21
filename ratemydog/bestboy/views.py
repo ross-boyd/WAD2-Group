@@ -18,7 +18,7 @@ def index(request):
         m = re.search('static/(.+?)$', str(doggies[i].picture))
         found.append(m.group(1))
 
-        context["dog_id" + str(i)] = str(found[i])
+        context[str(doggies[i].id)] = str(found[i])
 
     return render(request, 'home.html', {"output": context})
 
