@@ -144,6 +144,7 @@ def dogprofile(request, dogid):
     dog = Dog.objects.get(dog_id=dogid)
     comments = Rating.objects.all().filter(dog=dogid)
     commentsDict = {}
+    found = []
     for comment in comments:
         commentsDict[comment.user] = comment.text
     dogName = {'dogName': dog.name}
@@ -152,8 +153,11 @@ def dogprofile(request, dogid):
     commentsDict = {}
     m = re.search('static/(.+?)$',
                   str(dog.picture))
-    print(m)
-    img = {'dogID': m.group(1)}
+    if m is None:
+        img = {'dogID': str(dog.picture)}
+    else:
+        found.append(m.group(1))
+        img = {'dogID': found[0]}
 
     score = {"dog.average": dog.average}
     for comment in comments:
