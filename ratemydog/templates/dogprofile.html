@@ -27,7 +27,7 @@
 
     {% for id,url in outputImg.items %}
     {% with url as image_path %}
-    <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
+    <img class="img-fluid mx-auto d-block" src="{{ image_path }}" />
     {% endwith %}
     {% endfor %}
 
