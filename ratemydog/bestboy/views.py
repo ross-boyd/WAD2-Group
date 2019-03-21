@@ -134,62 +134,12 @@ def profile(request, username):
     return render(request, 'profile.html',
                   {'profile_user': user, 'output': top_context, "output2": favourite_context})
 
+
 @login_required
-def dogprofile(request):
-    User = get_user_model()
-    current_user = User.objects.get(username=request.user)
-    # Submits dog rating when button is pressed
-    if request.method == "POST":
-        form = RatingForm(request.POST)
-        print(request.POST)
-        if form.is_valid():
-            dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
-            dog.score += float(request.POST["slider_value"])
-            dog.votes += 1
-            dog.average = dog.score / dog.votes
-            dog.save()
-
-            current_user.last_voted_id += 1
-            current_user.save()
-
-            rating = form.save(commit=False)
-            rating.dog = dog
-            rating.user = current_user
-            rating.score = request.POST["slider_value"]
-            rating.save()
-
-        return redirect('/vote/')
-
-    else:
-        form = RatingForm()
-        doggies = Dog.objects.exclude(owner=current_user)
-        vote = False
-        for dog in doggies:
-            if Rating.objects.all().filter(dog=dog, user=current_user).count() == 0:
-                vote = True
-                break
-        if doggies.count() == 0 or vote is False:
-
-                response = render_to_response("nodog.html")
-                return response
-
-        m = re.search('static/(.+?)$',
-                      str(doggies[current_user.last_voted_id].picture))
-        img = {'dogID': m.group(1)}
-
-        dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
-
-        dogName = {'dogName': dog.name}
-        ownerName = {'ownerName': dog.owner}
-        comments = Rating.objects.all().filter(dog=dog)
-        commentsDict = {}
-        for comment in comments:
-            commentsDict[comment.user] = comment.text
-        dogName = {'dogName': dog.name}
-        ownerName = {'ownerName': dog.owner}
-
-        return render(request, 'vote.html',
-                      {"outputImg": img, "dogInfo": dogName,
-                       "ownerInfo": ownerName, "comments": commentsDict,
-                       "form": form})
+def dogprofile(request, dogid):
+    dog = Dog.objects.get(dog_id=dogid)
+    print(dog)
+    return render(request, 'dogprofile.html', {'context': dog})
+    
+    
 # look up ^
