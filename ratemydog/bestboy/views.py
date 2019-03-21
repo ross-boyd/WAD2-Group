@@ -144,9 +144,13 @@ def dogprofile(request, dogid):
     ownerName = {'ownerName': dog.owner}
     comments = Rating.objects.all().filter(dog=dog)
     commentsDict = {}
+    m = re.search('static/(.+?)$',
+                  str(dog.picture))
+    img = {'dogID': m.group(1)}
+
     for comment in comments:
         commentsDict[comment.user] = comment.text
-    
+   
     return render(request, 'dogprofile.html',
-                  {"dogInfo": dogName,
-                   "ownerInfo": ownerName, "comments": commentsDict,})
+                  {"dogInfo": dogName, "outputImg": img,
+                   "ownerInfo": ownerName, "comments": commentsDict, })
