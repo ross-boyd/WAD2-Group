@@ -150,7 +150,7 @@ def dogprofile(request, dogid):
 
     for comment in comments:
         commentsDict[comment.user] = comment.text
-   
+
     return render(request, 'dogprofile.html',
                   {"dogInfo": dogName, "outputImg": img,
                    "ownerInfo": ownerName, "comments": commentsDict, })
