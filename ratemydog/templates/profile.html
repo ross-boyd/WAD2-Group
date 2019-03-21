@@ -26,17 +26,26 @@
                 </div>
             </div>
             <div class="row">
-                {% for id,url in output.items %}
-                {% with url as image_path %}
-                <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
-                    <img src="{% static image_path %}" class="rounded">
-                    <div class="img__description rounded mx-auto"
-                        style="overflow: hidden; position: absolute; text-align: center; padding-top: 25%">
-                        <div class="display-1" style="opacity: 0.5">{% cycle '1' '2' '3' '4' '5' '6' '7' '8' '9' '10' %}</div>
+                    {% for id,url in output1.items %}
+                    {% with url as image_path %}
+                    {% with id as dogid %}
+            
+                    <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
+                        <img src="{% static image_path %}" class="rounded">
+                        <a href="{% url 'dogprofile' dogid %}">
+                            <div class="img__description rounded mx-auto"
+                                style="overflow: hidden; position: absolute; text-align: center; padding-top: 25%">
+            
+                                <div class="display-1" style="opacity: 0.5">{% cycle '1' '2' '3' '4' '5' '6' '7' '8' '9' '10' %}
+            
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                {% endwith %}
-                {% endfor %}
+            
+                    {% endwith %}
+                    {% endwith %}
+                    {% endfor %}
             </div>
         </div>
         <div class="col-sm m-3 border rounded">
@@ -47,17 +56,26 @@
                 </div>
             </div>
             <div class="row">
-                {% for id,url in output2.items %}
-                {% with url as image_path %}
-                <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
-                    <img src="{% static image_path %}" class="rounded">
-                    <div class="img__description rounded mx-auto"
-                        style="overflow: hidden; position: absolute; text-align: center; padding-top: 25%">
-                        <div class="display-1" style="opacity: 0.5">{% cycle '1' '2' '3' '4' '5' '6' '7' '8' '9' '10' %}</div>
+                    {% for id,url in output2.items %}
+                    {% with url as image_path %}
+                    {% with id as dogid %}
+            
+                    <div class="img__wrap mx-auto d-block mt-3" style="position: relative">
+                        <img src="{% static image_path %}" class="rounded">
+                        <a href="{% url 'dogprofile' dogid %}">
+                            <div class="img__description rounded mx-auto"
+                                style="overflow: hidden; position: absolute; text-align: center; padding-top: 25%">
+            
+                                <div class="display-1" style="opacity: 0.5">{% cycle '1' '2' '3' '4' '5' '6' '7' '8' '9' '10' %}
+            
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                {% endwith %}
-                {% endfor %}
+            
+                    {% endwith %}
+                    {% endwith %}
+                    {% endfor %}
             </div>
         </div>
     </div>
