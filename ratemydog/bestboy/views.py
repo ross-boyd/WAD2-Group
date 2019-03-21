@@ -152,11 +152,14 @@ def dogprofile(request, dogid):
     commentsDict = {}
     m = re.search('static/(.+?)$',
                   str(dog.picture))
+    print(m)
     img = {'dogID': m.group(1)}
 
+    score = {"dog.average": dog.average}
     for comment in comments:
         commentsDict[comment.user] = comment.text
 
     return render(request, 'dogprofile.html',
                   {"dogInfo": dogName, "outputImg": img,
-                   "ownerInfo": ownerName, "comments": commentsDict, })
+                   "ownerInfo": ownerName, "comments": commentsDict,
+                   "score": score})
