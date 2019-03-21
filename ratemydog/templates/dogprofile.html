@@ -13,6 +13,14 @@
             {% for name,nameVal in dogInfo.items %}
             <h1 class="display-3">This is {{ nameVal }}</h1>
             {% endfor %}
+
+            {% for name,nameVal in ownerInfo.items %}
+            <h3>They were uploaded by <a href="{% url 'profile' nameVal %}">{{ nameVal }}</a></h3>
+            {% endfor %}
+
+            {% for name,nameVal in score.items %}
+            <h3>Their score is: {{ nameVal }}</h3>
+            {% endfor %}
     </div>
 </div>
 <div class="container">
@@ -23,27 +31,6 @@
     {% endwith %}
     {% endfor %}
 
-</div>
-
-<div class="container">
-
-
-    <div class="row">
-        <div class="col align-self-center" style="padding-top: 2%">
-            </br>
-            <input type="hidden" , name="slider_value" , id="slider_value">
-            <input type="hidden" , name="dog_id" , id="dog_id">
-
-            {% for name,nameVal in dogInfo.items %}
-            <p>This is {{ nameVal }}.</p>
-            {% endfor %}
-
-            {% for name,nameVal in ownerInfo.items %}
-            <p>They were uploaded by <a href="{% url 'profile' nameVal %}">{{ nameVal }}</a>.</p>
-            {% endfor %}
-
-        </div>
-    </div>
 </div>
 <hr>
 
