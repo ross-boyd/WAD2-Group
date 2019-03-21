@@ -8,4 +8,5 @@ urlpatterns = [
     path('vote/', views.vote, name='vote'),
     path('upload/', views.upload, name='upload'),
     path('profile/<username>/', views.profile, name='profile')
+    path('dog/<dogid>/', views.dogprofile, name='dogprofile')
 ]

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<style>
+    img {
+        max-width: 100%;
+    }
+</style>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Vote</h1>
+        <p>Vote on dogs :3</p>
+    </div>
+</div>
+
+<div class="container">
+
+    {% for id,url in outputImg.items %}
+    {% with url as image_path %}
+    <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
+    {% endwith %}
+    {% endfor %}
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col align-self-center" style="padding-top: 2%">
+            </br>
+
+            {% for name,nameVal in dogInfo.items %}
+            <p>This is {{ nameVal }}.</p>
+            {% endfor %}
+
+            {% for name,nameVal in ownerInfo.items %}
+            <p>They were uploaded by <a href="{% url 'profile' nameVal %}">{{ nameVal }}</a>.</p>
+            {% endfor %}
+
+            
+        </div>
+    </div>
+</div>
+<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col align-self-center">
+            {% for name,nameVal in comments.items %}
+            <blockquote class="blockquote">
+                    <p class="mb-0">{{ nameVal }}</p>
+                    <footer class="blockquote-footer"><a href="{% url 'profile' name %}">{{ name }}</a></footer>
+            </blockquote>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
