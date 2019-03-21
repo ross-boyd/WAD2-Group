@@ -24,5 +24,6 @@ urlpatterns = [
     path('', include('bestboy.urls')),
     path('users/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
+    path('dog/', include('bestboy.urls')),
     url(r'^(?P<username>\w+)/', include('bestboy.urls')),
 ]

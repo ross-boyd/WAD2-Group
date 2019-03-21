@@ -17,9 +17,8 @@
 
 <div class="container">
 
-    {% with {{ dog.picture }} as image_path %}
-    <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
-    {% endwith %}
+    
+    <img class="img-fluid mx-auto d-block" src="{% static dog.picture %}" />
 
 </div>
 
