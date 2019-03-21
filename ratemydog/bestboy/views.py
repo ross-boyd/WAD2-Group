@@ -99,7 +99,7 @@ def upload(request):
             dog.picture = request.FILES['picture']
             dog.save()
 
-            return redirect('/upload/')
+            return render_to_response("success.html")
     else:
         form = UploadForm()
 
