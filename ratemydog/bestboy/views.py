@@ -70,7 +70,7 @@ def vote(request):
 
         dogName = {'dogName': dog.name}
         ownerName = {'ownerName': dog.owner}
-        comments = Rating.objects.all().filter(dog=dog)
+        comments = Rating.objects.all().filter(dog=dog).exclude(text="")
         commentsDict = {}
         for comment in comments:
             commentsDict[comment.user] = comment.text
@@ -142,7 +142,7 @@ def dogprofile(request, dogid):
         commentsDict[comment.user] = comment.text
     dogName = {'dogName': dog.name}
     ownerName = {'ownerName': dog.owner}
-    comments = Rating.objects.all().filter(dog=dog)
+    comments = Rating.objects.all().filter(dog=dog).exclude(text='')
     commentsDict = {}
     for comment in comments:
         commentsDict[comment.user] = comment.text
