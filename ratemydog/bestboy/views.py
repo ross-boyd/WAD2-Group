@@ -26,6 +26,7 @@ def index(request):
 @login_required
 def vote(request):
     User = get_user_model()
+    found = []
     current_user = User.objects.get(username=request.user)
     # Submits dog rating when button is pressed
     if request.method == "POST":
@@ -58,13 +59,15 @@ def vote(request):
                 vote = True
                 break
         if doggies.count() == 0 or vote is False:
-
-                response = render_to_response("nodog.html")
-                return response
+            response = render_to_response("nodog.html")
+            return response
 
         m = re.search('static/(.+?)$',
                       str(doggies[current_user.last_voted_id].picture))
-        img = {'dogID': m.group(1)}
+        if m is None:
+            img = {'dogID': str(doggies[current_user.last_voted_id].picture)}
+        else:
+            img = {'dogID': m.group(1)}
 
         dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
 
@@ -111,9 +114,9 @@ def profile(request, username):
     user = User.objects.get(username=username)
     current_user = User.objects.get(username=username)
 
-    dog_owner = Dog.objects.all().filter(owner=user).order_by('-average')[:10]
+    dog_owner = Dog.objects.all().filter(owner=user).order_by('-average')
     voted_dogs = Dog.objects.all().filter(dog_id__lte=current_user.last_voted_id).order_by('-average')[:10]
-    print(voted_dogs)
+
     display_dogs = []
     found = []
     found2 = []
@@ -128,8 +131,11 @@ def profile(request, username):
 
     for i in range(len(dog_owner)):
         m = re.search('static/(.+?)$', str(dog_owner[i].picture))
-        found.append(m.group(1))
-        top_context["dog_id" + str(i)] = str(found[i])
+        if m is None:
+            top_context["dog_id" + str(i)] = str(dog_owner[i].picture)
+        else:
+            found.append(m.group(1))
+            top_context["dog_id" + str(i)] = str(found[i])
 
     return render(request, 'profile.html',
                   {'profile_user': user, 'output': top_context, "output2": favourite_context})
