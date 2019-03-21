@@ -10,18 +10,16 @@
 </style>
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">{{ DOG ID }}</h1>
+        <h1 class="display-3">{{ dog.name }}</h1>
         <p>wElcoMe to MY Page :3 :3</p>
     </div>
 </div>
 
 <div class="container">
 
-    {% for id,url in outputImg.items %}
-    {% with url as image_path %}
+    {% with {{ dog.picture }} as image_path %}
     <img class="img-fluid mx-auto d-block" src="{% static image_path %}" />
     {% endwith %}
-    {% endfor %}
 
 </div>
 
@@ -29,16 +27,9 @@
     <div class="row">
         <div class="col align-self-center" style="padding-top: 2%">
             </br>
-
-            {% for name,nameVal in dogInfo.items %}
-            <p>This is {{ nameVal }}.</p>
-            {% endfor %}
-
-            {% for name,nameVal in ownerInfo.items %}
-            <p>They were uploaded by <a href="{% url 'profile' nameVal %}">{{ nameVal }}</a>.</p>
-            {% endfor %}
-
-            
+            <p>This is {{ dog.name }}.</p>
+            <p>They were uploaded by <a href="{% url 'profile' nameVal %}">{{ dog.owner }}</a>.</p>
+            <p>They are a {{ dog.breed }} </p>    
         </div>
     </div>
 </div>
