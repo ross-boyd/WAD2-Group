@@ -60,7 +60,7 @@ def vote(request):
                 break
         if doggies.count() == 0 or vote is False:
             response = render_to_response("nodog.html")
-            return response
+            return render(request, 'nodog.html')
 
         m = re.search('static/(.+?)$',
                       str(doggies[current_user.last_voted_id].picture))
@@ -99,7 +99,7 @@ def upload(request):
             dog.picture = request.FILES['picture']
             dog.save()
 
-            return render_to_response("success.html")
+            return render(request, "success.html")
     else:
         form = UploadForm()
 
