@@ -39,7 +39,7 @@ coverage report
 ```
 ### User testing
 
-Populate.py creates SUPERUSER::123, TESTUSER::123, NEWUSER::123 which can be used to login for testing purposes.
+Populate.py creates SUPERUSER::123, TESTUSER::123, NEWUSER::123 which can be used to login for testing purposes although signing up is functional.
 
 ## Style guide
 
@@ -49,3 +49,7 @@ Populate.py creates SUPERUSER::123, TESTUSER::123, NEWUSER::123 which can be use
 ## Database
 
 SQLite 
+
+## NB
+
+Login page will display 'example.com' until otherwise configured in admin panel.

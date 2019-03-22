@@ -12,7 +12,7 @@ from bestboy.choices import *
 
 
 def populate():
-    directory = os.getcwd() + "/bestboy/static/bestboy/img/dog_pics"
+    directory = os.getcwd() + "/bestboy/media/dog_pics"
 
     User = get_user_model()
     try:
@@ -33,9 +33,10 @@ def populate():
     for id in range(1, 102):
         save_dog(random.choice(names), id,
                  random.choice(breeds)[0],
-                 directory + "/dog" + str(id) + ".jpg", super_user)
+                 "dog_pics/dog" + str(id) + ".jpg", super_user)
         rate_dog(id, round(random.uniform(0, 10), 1), random.choice(comments),
                  test_user)
+
 
 def save_dog(name, dog_id, breed, picture, owner):
     d = Dog.objects.get_or_create(owner=owner, dog_id=dog_id)[0]

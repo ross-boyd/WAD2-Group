@@ -6,19 +6,14 @@ from django.contrib.auth import get_user_model
 from bestboy.models import Dog, Rating
 from bestboy.forms import RatingForm, UploadForm
 from django.shortcuts import render_to_response
-import re
+from ratemydog import settings
 
 
 def index(request):
-    doggies = Dog.objects.all().order_by('-average')[:10]
-    print(doggies)
-    found = []
+    top10 = Dog.objects.all().order_by('-average')[:10]
     context = {}
     for i in range(10):
-        m = re.search('static/(.+?)$', str(doggies[i].picture))
-        found.append(m.group(1))
-
-        context[str(doggies[i].id)] = str(found[i])
+        context[str(top10[i].id)] = "/media/" + str(top10[i].picture)
 
     return render(request, 'home.html', {"output": context})
 
@@ -31,7 +26,6 @@ def vote(request):
     # Submits dog rating when button is pressed
     if request.method == "POST":
         form = RatingForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
             dog.score += float(request.POST["slider_value"])
@@ -62,26 +56,20 @@ def vote(request):
             response = render_to_response("nodog.html")
             return render(request, 'nodog.html')
 
-        m = re.search('static/(.+?)$',
-                      str(doggies[current_user.last_voted_id].picture))
-        if m is None:
-            img = {'dogID': str(doggies[current_user.last_voted_id].picture)}
-        else:
-            img = {'dogID': m.group(1)}
-
         dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
-
-        dogName = {'dogName': dog.name}
-        ownerName = {'ownerName': dog.owner}
+        img = {"dogID": "/media/" + str(dog.picture)}
+        dog_name = {"dogName": dog.name}
+        owner_name = {"ownerName": dog.owner}
+        dog_breed = {"dogBreed": dog.breed}
         comments = Rating.objects.all().filter(dog=dog).exclude(text="")
-        commentsDict = {}
+        comments_dict = {}
         for comment in comments:
-            commentsDict[comment.user] = comment.text
+            comments_dict[comment.user] = comment.text
 
         return render(request, 'vote.html',
-                      {"outputImg": img, "dogInfo": dogName,
-                       "ownerInfo": ownerName, "comments": commentsDict,
-                       "form": form})
+                      {"outputImg": img, "dogInfo": dog_name,
+                       "ownerInfo": owner_name, "comments": comments_dict,
+                       "form": form, "dogBreed": dog_breed})
 
 
 @login_required
@@ -108,62 +96,42 @@ def upload(request):
 
 def profile(request, username):
     User = get_user_model()
-
-    user = User.objects.get(username=username)
     current_user = User.objects.get(username=username)
 
-    dog_owner = Dog.objects.all().filter(owner=user).order_by('-average')
-    voted_dogs = Dog.objects.all().filter(dog_id__lte=current_user.last_voted_id).order_by('-average')[:10]
-
-    display_dogs = []
-    found = []
-    found2 = []
+    top_rated = Dog.objects.all().filter(owner=current_user).order_by('-average')
     top_context = {}
+    for i in range(10):
+        try:
+            top_context[str(top_rated[i].id)] = "/media/"+str(top_rated[i].picture)
+        except:
+            break
+
+    favourite = Dog.objects.all().filter(dog_id__lte=current_user.last_voted_id).order_by('-average')
     favourite_context = {}
-    counter = 0
-
-    for i in range(len(voted_dogs)):
-        m = re.search('static/(.+?)$', str(voted_dogs[i].picture))
-        found2.append(m.group(1))
-        favourite_context[str(voted_dogs[i].id)] = str(found2[i])
-
-    for i in range(len(dog_owner)):
-        m = re.search('static/(.+?)$', str(dog_owner[i].picture))
-        if m is None:
-            top_context[str(dog_owner[i].id)] = str(dog_owner[i].picture)
-        else:
-            found.append(m.group(1))
-            top_context[str(dog_owner[i].id)] = str(found[i])
+    for i in range(10):
+        try:
+            top_context[str(favourite[i].id)] = "/media/"+str(favourite[i].picture)
+        except:
+            break
 
     return render(request, 'profile.html',
-                  {'profile_user': user, 'output': top_context, "output2": favourite_context})
+                  {'profile_user': current_user, 'output': top_context,
+                   "output2": favourite_context})
 
 
-@login_required
 def dogprofile(request, dogid):
     dog = Dog.objects.get(dog_id=dogid)
-    comments = Rating.objects.all().filter(dog=dogid)
-    commentsDict = {}
-    found = []
-    for comment in comments:
-        commentsDict[comment.user] = comment.text
-    dogName = {'dogName': dog.name}
-    ownerName = {'ownerName': dog.owner}
-    comments = Rating.objects.all().filter(dog=dog).exclude(text='')
-    commentsDict = {}
-    m = re.search('static/(.+?)$',
-                  str(dog.picture))
-    if m is None:
-        img = {'dogID': str(dog.picture)}
-    else:
-        found.append(m.group(1))
-        img = {'dogID': found[0]}
-
+    img = {"dogID": "/media/" + str(dog.picture)}
+    dog_name = {'dogName': dog.name}
+    dog_breed = {'dogName': dog.breed}
+    owner_name = {'ownerName': dog.owner}
     score = {"dog.average": dog.average}
+    comments = Rating.objects.all().filter(dog=dog).exclude(text='')
+    comments_dict = {}
     for comment in comments:
-        commentsDict[comment.user] = comment.text
+        comments_dict[comment.user] = comment.text
 
     return render(request, 'dogprofile.html',
-                  {"dogInfo": dogName, "outputImg": img,
-                   "ownerInfo": ownerName, "comments": commentsDict,
-                   "score": score})
+                  {"dogInfo": dog_name, "outputImg": img,
+                   "ownerInfo": owner_name, "comments": comments_dict,
+                   "score": score, "dogBreed": dog_breed})

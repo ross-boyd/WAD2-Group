@@ -10,3 +10,4 @@ chardet<3.1.0,>=3.0.2
 defusedxml
 Pillow
 coverage
+django-crispy-forms

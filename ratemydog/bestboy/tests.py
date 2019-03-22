@@ -1,28 +1,87 @@
-from django.test import TestCase
-from django.test import Client
-from django.urls import reverse
-from django.conf import settings
-from django.contrib.staticfiles import finders
+from django.test import TestCase, Client
+from unittest import skip
+from django.urls import reverse, reverse_lazy
+from django.contrib.staticfiles import *
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib import auth
+from bestboy.models import Dog
+from django.core.exceptions import ValidationError
+
 import os
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 
-class UrlTests(TestCase):
+class StaticFilesTests(TestCase):
+
+    def test_static_slider(self):
+        result = finders.find('bestboy/img/slider_dog.gif')
+        self.assertIsNotNone(result)
+
+    def test_static_dog_pics_not_used(self):
+        result2 = finders.find('bestboy/img/dog1.jpg')
+        self.assertIsNone(result2)
+
+
+# -----------------------------------------------------------
+
+class FormsTests(TestCase):
+
+    def test_rating_form(self):
+        try:
+            from bestboy.forms import RatingForm
+            pass
+        except ImportError:
+            print("Error importing module")
+        except:
+            print("Error")
+
+    def test_upload_form(self):
+        try:
+            from bestboy.forms import UploadForm
+            pass
+        except ImportError:
+            print("Error importing module")
+        except:
+            print("Error")
+
+
+# -----------------------------------------------------------
+class PopulationScriptTests(TestCase):
 
     def setUp(self):
         self.client = Client()
+        try:
+            from populate_dogs import populate
+            populate()
+        except ImportError:
+            print("The module populate_dogs does not exist")
+        except NameError:
+            print("The function populate() does not exist or is incorrect")
+        except:
+            print("Error in populate() function")
 
-    def test_home(self):
+
+# -----------------------------------------------------------
+
+class UrlTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        try:
+            from populate_dogs import populate
+            populate()
+        except ImportError:
+            print("The module populate_dogs does not exist")
+        except NameError:
+            print("The function populate() does not exist or is incorrect")
+        except:
+            print("Error in populate() function")
+
+    def test_home_index(self):
         response = self.client.get(reverse('index'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_index(self):
-        url = reverse('index')
-        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_vote(self):
@@ -35,46 +94,176 @@ class UrlTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+    # def test_admin(self):
+    #     url = reverse('admin')
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_login(self):
+    #     user = get_user_model()
+    #     self.client.force_login(user.objects.get_or_create(username='testuser')[0])
+    #     url = reverse('login/testuser')
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, 200)
+
+
 # -----------------------------------------------------------
+class BaseTemplateTests(TestCase):
 
-
-class StaticFilesTests(TestCase):
-
-    def test_static_files(self):
-        result = finders.find('bestboy/img/dog1.jpg')
-        self.assertIsNotNone(result)
-
-    def test_static_files(self):
-        result = finders.find('bestboy/img/slider_dog.gif')
-        self.assertIsNotNone(result)
-
-# -----------------------------------------------------------
-
-
-class FormsTests(TestCase):
-
-    def test_forms(self):
+    def setUp(self):
+        self.client = Client()
         try:
-            from bestboy.forms import RatingForm
-            pass
+            from populate_dogs import populate
+            populate()
         except ImportError:
-            print("Error importing module")
+            print("The module populate_dogs does not exist")
+        except NameError:
+            print("The function populate() does not exist or is incorrect")
         except:
-            print("Error")
+            print("Error in populate() function")
+
+    def test_base_template_exists(self):
+        base_path = os.path.join(TEMPLATE_DIR, 'base.html')
+        self.assertTrue(os.path.isfile(base_path))
+
+    def test_navbar_present(self):
+        response = self.client.get(reverse('index'))
+        self.assertIn(b'Home', response.content)
+        self.assertIn(b'Vote', response.content)
+        self.assertIn(b'Upload', response.content)
+        self.assertIn(b'RATE MY DOG', response.content)
+        self.assertIn(b'Sign Up', response.content)
+        self.assertIn(b'Login', response.content)
+
 
 # ---------------------------------------------------------------------------------------
 
+class TemplatesExistTests(TestCase):
+
+    def test_home_template_exists(self):
+        home_path = os.path.join(TEMPLATE_DIR, 'home.html')
+        self.assertTrue(os.path.isfile(home_path))
+
+    def test_login_template_exists(self):
+        login_path = os.path.join(TEMPLATE_DIR, 'login.html')
+        self.assertTrue(os.path.isfile(login_path))
+
+    def test_signup_template_exists(self):
+        signup_path = os.path.join(TEMPLATE_DIR, 'signup.html')
+        self.assertTrue(os.path.isfile(signup_path))
+
+    def test_vote_template_exists(self):
+        vote_path = os.path.join(TEMPLATE_DIR, 'vote.html')
+        self.assertTrue(os.path.isfile(vote_path))
+
+    def test_no_dog_template_exists(self):
+        no_dog_path = os.path.join(TEMPLATE_DIR, 'nodog.html')
+        self.assertTrue(os.path.isfile(no_dog_path))
+
+    def test_profile_template_exists(self):
+        profile_path = os.path.join(TEMPLATE_DIR, 'profile.html')
+        self.assertTrue(os.path.isfile(profile_path))
+
+    def test_dog_profile_template_exists(self):
+        dog_profile_path = os.path.join(TEMPLATE_DIR, 'dogprofile.html')
+        self.assertTrue(os.path.isfile(dog_profile_path))
+
+    def test_upload_template_exists(self):
+        upload_path = os.path.join(TEMPLATE_DIR, 'upload.html')
+        self.assertTrue(os.path.isfile(upload_path))
+
+    def test_success_template_exists(self):
+        success_path = os.path.join(TEMPLATE_DIR, 'success.html')
+        self.assertTrue(os.path.isfile(success_path))
+
+
+# -----------------------------------------------------------
+class TemplatesUseBaseTests(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        try:
+            from populate_dogs import populate
+            populate()
+        except ImportError:
+            print("The module populate_dogs does not exist")
+        except NameError:
+            print("The function populate() does not exist or is incorrect")
+        except:
+            print("Error in populate() function")
+
+    def test_home_template(self):
+        response = self.client.get(reverse('index'))
+        self.assertTemplateUsed(response, 'home.html', 'base.html')
+
+    def test_login_template(self):
+        response = self.client.get(reverse('account_login'))
+        self.assertTemplateUsed(response, 'account/login.html', 'base.html')
+
+    def test_signup_template(self):
+        response = self.client.get(reverse('signup'))
+        self.assertTemplateUsed(response, 'signup.html', 'base.html')
+
+    def test_vote_template(self):
+        user = get_user_model()
+        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
+        response = self.client.get(reverse('vote'))
+        self.assertTemplateUsed(response, 'vote.html', 'base.html')
+
+    @skip
+    def test_no_dog_template(self):
+        response = self.client.get(reverse('vote'))
+        self.assertTemplateUsed(response, 'nodog.html', 'base.html')
+
+    @skip
+    def test_profile_template(self):
+        user = get_user_model()
+        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
+        response = self.client.get(reverse('profile'))
+        self.assertTemplateUsed(response, 'profile.html', 'base.html')
+
+    @skip
+    def test_dog_profile_template(self):
+        response = self.client.get(reverse('dog/8'))
+        self.assertTemplateUsed(response, 'dogprofile.html', 'base.html')
+
+    def test_upload_template(self):
+        user = get_user_model()
+        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
+        response = self.client.get(reverse('upload'))
+        self.assertTemplateUsed(response, 'upload.html', 'base.html')
+
+    @skip
+    def test_success_template(self):
+        user = get_user_model()
+        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
+        response = self.client.get(reverse('upload'))
+        self.assertTemplateUsed(response, 'success.html', 'base.html')
+
+
+# -----------------------------------------------------------
 
 class IndexPageTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        try:
+            from populate_dogs import populate
+            populate()
+        except ImportError:
+            print("The module populate_dogs does not exist")
+        except NameError:
+            print("The function populate() does not exist or is incorrect")
+        except:
+            print("Error in populate() function")
 
-    # def test_base_templates_used(self):
-    #     response = self.client.get(reverse('home'))
-    #     self.assertTemplateUsed(response, 'base.html')
-    #
-    # def test_index_has(self):
-    #     response = self.client.get(reverse('index'))
-    #     self.assertIn(b'RATE MY DOG', response.content)
-    #     self.assertIn(b'The Best Boys'. response.content)
+    def test_index_has_titles(self):
+        response = self.client.get(reverse('index'))
+        self.assertIn(b'RATE MY DOG', response.content)
+        self.assertIn(b'The Best Boys', response.content)
+
+    def test_index_has_images(self):
+        response = self.client.get(reverse('index'))
+        self.assertIn(b'img', response.content)
 
     # Navigation testing
     def test_index_link_to_index(self):
@@ -105,61 +294,123 @@ class IndexPageTests(TestCase):
             response = False
             return response
 
-# ---------------------------------------------------------------------------------------
+    def test_index_link_to_profile(self):
+        try:
+            response = self.client.get(reverse('profile'))
+        except:
+            response = False
+            return response
 
-
-class TemplateTests(TestCase):
-
-    def test_base_template_exists(self):
-        base_path = os.path.join(os.path.join(
-            BASE_DIR, 'templates'), 'base.html')
-        self.assertTrue(os.path.isfile(base_path))
-
-    def test_home_template_exists(self):
-        home_path = os.path.join(os.path.join(
-            BASE_DIR, 'templates'), 'home.html')
-        self.assertTrue(os.path.isfile(home_path))
-
-    def test_login_template_exists(self):
-        login_path = os.path.join(os.path.join(
-            BASE_DIR, 'templates'), 'login.html')
-        self.assertTrue(os.path.isfile(login_path))
-
-    def test_profile_template_exists(self):
-        profile_path = os.path.join(os.path.join(
-            BASE_DIR, 'templates'), 'profile.html')
-        self.assertTrue(os.path.isfile(profile_path))
-
-    def test_signup_template_exists(self):
-        signup_path = os.path.join(os.path.join(
-            BASE_DIR, 'templates'), 'signup.html')
-        self.assertTrue(os.path.isfile(signup_path))
-
-    def test_vote_template_exists(self):
-        vote_path = os.path.join(os.path.join(
-            BASE_DIR, 'templates'), 'vote.html')
-        self.assertTrue(os.path.isfile(vote_path))
 
 # ---------------------------------------------------------------------------------------
 
-
-class TemplatesUseBaseTests(TestCase):
-    # Skipped
-    def _test_login_template(self):
-        response = self.client.get(reverse('login'))
-        self.assertTemplateUsed(response, 'base.html')
-
-    def test_signup_template(self):
+class SignUpTests(TestCase):
+    def test_are_fields_present(self):
         response = self.client.get(reverse('signup'))
-        self.assertTemplateUsed(response, 'base.html')
+        self.assertEqual(response.status_code, 200)
 
-    # Skipped
-    def _test_profile_template(self):
-        response = self.client.get(reverse('profile'))
-        self.assertTemplateUsed(response, 'base.html')
+        self.assertIn(b'Email address:', response.content)
+        self.assertIn(b'Username:', response.content)
+        self.assertIn(b'Password:', response.content)
+        self.assertIn(b'Password confirmation:', response.content)
 
-    def test_vote_template(self):
-        user = get_user_model()
-        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
-        response = self.client.get(reverse('vote'))
-        self.assertTemplateUsed(response, 'base.html')
+    def setUp(self):
+        self.client = Client()
+        self.newUser = {'email': "daniel@gmail.com",
+                        'username': "rssbyd",
+                        'password': "Testpassword123!",
+                        'confirm_password': "Testpassword123!"}
+        # User.objects.create_user(**self.newUser)
+
+    def test_signup(self):
+        response = self.client.post(reverse('signup'),
+                                    {'email': "daniel@gmail.com",
+                                     'username': "rssbyd",
+                                     'password': "Testpassword123!",
+                                     'confirm_password': "Testpassword123!"})
+
+        self.assertNotIn(b'The Best Boys', response.content)
+
+    def test_short_password(self):
+        response = self.client.post(reverse('signup'),
+                                    {'email': "test@gmail.com",
+                                     'username': "test",
+                                     'password': "pass",
+                                     'confirm_password': "pass"})
+        # Incorrect info so no redirect to index
+        self.assertNotIn(b'The Best Boys', response.content)
+
+    def test_no_uppercase(self):
+        response = self.client.post(reverse('signup'),
+                                    {'email': "test@gmail.com",
+                                     'username': "test",
+                                     'password': "testpassword1",
+                                     'confirm_password': "testpassword1"})
+        # Incorrect info so no redirect to index
+        self.assertNotIn(b'The Best Boys', response.content)
+
+    def test_no_lowercase(self):
+        response = self.client.post(reverse('signup'),
+                                    {'email': "test@gmail.com",
+                                     'username': "test",
+                                     'password': "TESTPASSWORD1",
+                                     'confirm_password': "TESTPASSWORD"})
+        # Incorrect info so no redirect to index
+        self.assertNotIn(b'The Best Boys', response.content)
+
+    def test_no_numbers(self):
+        response = self.client.post(reverse('signup'),
+                                    {'email': "test@gmail.com",
+                                     'username': "test",
+                                     'password': "Testpassword",
+                                     'confirm_password': "Testpassword"})
+        # Incorrect info so no redirect to index
+        self.assertNotIn(b'The Best Boys', response.content)
+
+    def test_no_letters(self):
+        response = self.client.post(reverse('signup'),
+                                    {'email': "test@gmail.com",
+                                     'username': "test",
+                                     'password': "Testpassword",
+                                     'confirm_password': "Testpassword"})
+        # Incorrect info so no redirect to index
+        self.assertNotIn(b'The Best Boys', response.content)
+
+    # ---------------------------------------------------------------------------------------
+
+
+class LoginTests(TestCase):
+
+    def setUp(self):
+        username = 'testuser'
+        password = 'TestPass12'
+        User = get_user_model()
+        user = User.objects.create_user(username, password=password)
+        user.save()
+
+    def test_successful_login(self):
+        username = 'testuser'
+        password = 'TestPass12'
+
+        logged_in = self.client.login(username=username, password=password)
+        self.assertTrue(logged_in)
+
+    def test_uppercase_username(self):
+        new_username = 'TESTUSER'
+        new_password = 'TestPass12'
+
+        logged_in = self.client.login(username=new_username, password=new_password)
+        self.assertFalse(logged_in)
+
+
+class DogModelTests(TestCase):
+
+    def test_score_is_not_float(self):
+        with self.assertRaises(ValueError):
+            Dog(score=Dog.objects.get_or_create(dog_id=12,
+                                                score="test"))
+
+    def test_picture_is_not_picture(self):
+        with self.assertRaises(ValueError):
+            Dog(picture=Dog.objects.get_or_create(dog_id=12,
+                                                  picture="bestboy/hello"))
