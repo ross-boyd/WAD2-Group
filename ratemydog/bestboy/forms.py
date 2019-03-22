@@ -12,6 +12,8 @@ class RatingForm(forms.ModelForm):
                               'id': 'comment', 'placeholder':
                               placeholderString})
 
+    breedFilter = forms.ChoiceField(choices=get_breeds())
+
     class Meta:
         model = Rating
         fields = ('text',)
