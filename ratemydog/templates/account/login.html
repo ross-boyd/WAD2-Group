@@ -28,8 +28,8 @@
 
 <div class="container">
 
-  <div class="row">
-    <div class="col">
+  <div class="row justify-content-md-left">
+    <div class="col-xl-4">
       {% include "socialaccount/snippets/login_extra.html" %}
 
       {% else %}
@@ -46,18 +46,25 @@
         <!-- -->
         <!-- <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a> -->
 
-        <button class="primaryAction btn btn-primary btn-lg mt-3" type="submit">{% trans "Sign In" %}</button>
-      </form>
-    </div>
-
-
-    </div>
-    <div class="row">
-        <div id="google-sign-in" class="m-3">
-          {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+        <div class="text-left">
+          <button class="primaryAction btn btn-primary btn-lg mt-3" type="submit">{% trans "Sign In" %}</button>
+          <div id="google-sign-in" class="mt-3">
+            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+          </div>
         </div>
 
+      </form>
+
+    </div>
+
+
   </div>
+  <!-- <div class="row">
+        <div id="google-sign-in" class="m-3">
+          {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+        </div> -->
+
+</div>
 </div>
 
 
