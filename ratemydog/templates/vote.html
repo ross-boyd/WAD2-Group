@@ -15,9 +15,8 @@
     </div>
 </div>
 
-
-
 <div class="container">
+
     {% for id,url in outputImg.items %}
     {% with url as image_path %}
     <img class="img-fluid mx-auto d-block" src="{{ image_path }}" />
@@ -26,25 +25,17 @@
 
 </div>
 
-<div class="row">
-        <div class="col align-self-center" style="padding-top: 5%">
-            <form method="get">
-                {{ form.breedFilter }}
-                <button type="submit">Search</button>
-            </form>
-        </div>
-</div>
-
 <div class="container">
     <div class="row">
-        <div class="col align-self-center" style="padding-top: 2%">        
+        <div class="col align-self-center" style="padding-top: 2%">
             <form method="post">
-                <style data="thumbStyle" type="text/css"></style>
+                {% csrf_token %}
+                <style data="thumbStyle" type="text/css">
+                </style>
+
                 <input type="range" min="1" max="100" value="50" class="slider" id="rating">
         </div>
     </div>
-
-    
 
     <div class="row">
         <div class="col align-self-center" style="padding-top: 2%">

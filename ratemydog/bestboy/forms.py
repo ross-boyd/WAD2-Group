@@ -12,11 +12,9 @@ class RatingForm(forms.ModelForm):
                               'id': 'comment', 'placeholder':
                               placeholderString})
 
-    breedFilter = forms.ChoiceField(choices=get_valid_breeds(Dog), required=False)
-
     class Meta:
         model = Rating
-        fields = ('text', 'breedFilter')
+        fields = ('text',)
 
 
 class UploadForm(forms.ModelForm):

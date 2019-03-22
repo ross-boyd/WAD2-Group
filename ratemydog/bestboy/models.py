@@ -26,5 +26,5 @@ class Rating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     score = models.FloatField(default=0)
-    text = models.TextField(max_length=240)
+    text = models.TextField(max_length=3000)
     created_date = models.DateTimeField(default=timezone.now)
