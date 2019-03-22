@@ -1,9 +1,13 @@
 from django.test import TestCase, Client
+from unittest import skip
 from django.urls import reverse, reverse_lazy
 from django.contrib.staticfiles import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib import auth
+from bestboy.models import Dog
+from django.core.exceptions import ValidationError
 
 import os
 
@@ -26,9 +30,18 @@ class StaticFilesTests(TestCase):
 
 class FormsTests(TestCase):
 
-    def test_forms(self):
+    def test_rating_form(self):
         try:
             from bestboy.forms import RatingForm
+            pass
+        except ImportError:
+            print("Error importing module")
+        except:
+            print("Error")
+
+    def test_upload_form(self):
+        try:
+            from bestboy.forms import UploadForm
             pass
         except ImportError:
             print("Error importing module")
@@ -183,9 +196,9 @@ class TemplatesUseBaseTests(TestCase):
         response = self.client.get(reverse('index'))
         self.assertTemplateUsed(response, 'home.html', 'base.html')
 
-    def _test_login_template(self):
-        response = self.client.get(reverse('login'))
-        self.assertTemplateUsed(response, 'login.html', 'base.html')
+    def test_login_template(self):
+        response = self.client.get(reverse('account_login'))
+        self.assertTemplateUsed(response, 'account/login.html', 'base.html')
 
     def test_signup_template(self):
         response = self.client.get(reverse('signup'))
@@ -197,31 +210,36 @@ class TemplatesUseBaseTests(TestCase):
         response = self.client.get(reverse('vote'))
         self.assertTemplateUsed(response, 'vote.html', 'base.html')
 
-    # def test_no_dog_template(self):
-    #     response = self.client.get(reverse('vote'))
-    #     self.assertTemplateUsed(response, 'nodog.html', 'base.html')
+    @skip
+    def test_no_dog_template(self):
+        response = self.client.get(reverse('vote'))
+        self.assertTemplateUsed(response, 'nodog.html', 'base.html')
 
-    # def test_profile_template(self):
-    #     user = get_user_model()
-    #     self.client.force_login(user.objects.get_or_create(username='testuser')[0])
-    #     response = self.client.get(reverse('profile/testuser'))
-    #     self.assertTemplateUsed(response, 'profile.html', 'base.html')
+    @skip
+    def test_profile_template(self):
+        user = get_user_model()
+        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
+        response = self.client.get(reverse('profile'))
+        self.assertTemplateUsed(response, 'profile.html', 'base.html')
 
-    # def test_dog_profile_template(self):
-    #     response = self.client.get(reverse('dog/8'))
-    #     self.assertTemplateUsed(response, 'dogprofile.html', 'base.html')
+    @skip
+    def test_dog_profile_template(self):
+        response = self.client.get(reverse('dog/8'))
+        self.assertTemplateUsed(response, 'dogprofile.html', 'base.html')
 
     def test_upload_template(self):
         user = get_user_model()
         self.client.force_login(user.objects.get_or_create(username='testuser')[0])
         response = self.client.get(reverse('upload'))
-        self.assertTemplateUsed(response, 'upload.html', 'base.html' )
+        self.assertTemplateUsed(response, 'upload.html', 'base.html')
 
-    # def test_success_template(self):
-    #     user = get_user_model()
-    #     self.client.force_login(user.objects.get_or_create(username='testuser')[0])
-    #     response = self.client.get(reverse('upload'))
-    #     self.assertTemplateUsed(response, 'success.html', 'base.html')
+    @skip
+    def test_success_template(self):
+        user = get_user_model()
+        self.client.force_login(user.objects.get_or_create(username='testuser')[0])
+        response = self.client.get(reverse('upload'))
+        self.assertTemplateUsed(response, 'success.html', 'base.html')
+
 
 # -----------------------------------------------------------
 
@@ -362,5 +380,37 @@ class SignUpTests(TestCase):
 
 
 class LoginTests(TestCase):
+
     def setUp(self):
-        self.client = Client()
+        username = 'testuser'
+        password = 'TestPass12'
+        User = get_user_model()
+        user = User.objects.create_user(username, password=password)
+        user.save()
+
+    def test_successful_login(self):
+        username = 'testuser'
+        password = 'TestPass12'
+
+        logged_in = self.client.login(username=username, password=password)
+        self.assertTrue(logged_in)
+
+    def test_uppercase_username(self):
+        new_username = 'TESTUSER'
+        new_password = 'TestPass12'
+
+        logged_in = self.client.login(username=new_username, password=new_password)
+        self.assertFalse(logged_in)
+
+
+class DogModelTests(TestCase):
+
+    def test_score_is_not_float(self):
+        with self.assertRaises(ValueError):
+            Dog(score=Dog.objects.get_or_create(dog_id=12,
+                                                score="test"))
+
+    def test_picture_is_not_picture(self):
+        with self.assertRaises(ValueError):
+            Dog(picture=Dog.objects.get_or_create(dog_id=12,
+                                                  picture="bestboy/hello"))
