@@ -35,6 +35,7 @@ def get_comments():
 
 def get_valid_breeds(Dog):
     BREED_CHOICES = []
+    BREED_CHOICES.append((str(1), "Any"))
     with open("breeds.txt", "r") as f:
         counter = 1
         while True:

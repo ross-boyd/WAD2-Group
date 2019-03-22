@@ -47,10 +47,16 @@ def vote(request):
 
     else:
         form = RatingForm()
+        form.fields['breedFilter'].initial = current_user.current_breed
+
         if len(request.GET) != 0:
-            doggies = Dog.objects.exclude(owner=current_user).filter(breed=request.GET['breedFilter'])
+            current_user.current_breed = request.GET['breedFilter']
+
+        if current_user.current_breed != 0:
+            doggies = Dog.objects.exclude(owner=current_user).filter(breed=current_user.current_breed)
         else:
             doggies = Dog.objects.exclude(owner=current_user)
+
         vote = False
         for dog in doggies:
             if Rating.objects.all().filter(dog=dog, user=current_user).count() == 0:
@@ -58,9 +64,15 @@ def vote(request):
                 break
         if doggies.count() == 0 or vote is False:
             response = render_to_response("nodog.html")
-            return render(request, 'nodog.html')
-        if len(request.GET) != 0:
-            dog = Dog.objects.filter(dog_id__gte=current_user.last_voted_id + 1, breed=request.GET['breedFilter'])[:1].get()
+            if current_user.current_breed != 0:
+                current_user.current_breed = 0
+                current_user.save()
+                return render(request, 'nobreed.html')
+            else:
+                return render(request, 'nodog.html')
+                
+        if current_user.current_breed != 0:
+            dog = Dog.objects.filter(dog_id__gte=current_user.last_voted_id + 1, breed=current_user.current_breed)[:1].get()
         else:
             dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
 

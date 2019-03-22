@@ -16,7 +16,7 @@ class RatingForm(forms.ModelForm):
 
     class Meta:
         model = Rating
-        fields = ('text',)
+        fields = ('text', 'breedFilter')
 
 
 class UploadForm(forms.ModelForm):
