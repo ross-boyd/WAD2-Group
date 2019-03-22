@@ -58,17 +58,18 @@ def vote(request):
 
         dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
         img = {"dogID": "/media/" + str(dog.picture)}
-        dogName = {"dogName": dog.name}
-        ownerName = {"ownerName": dog.owner}
+        dog_name = {"dogName": dog.name}
+        owner_name = {"ownerName": dog.owner}
+        dog_breed = {"dogBreed": dog.breed}
         comments = Rating.objects.all().filter(dog=dog).exclude(text="")
-        commentsDict = {}
+        comments_dict = {}
         for comment in comments:
-            commentsDict[comment.user] = comment.text
+            comments_dict[comment.user] = comment.text
 
         return render(request, 'vote.html',
-                      {"outputImg": img, "dogInfo": dogName,
-                       "ownerInfo": ownerName, "comments": commentsDict,
-                       "form": form})
+                      {"outputImg": img, "dogInfo": dog_name,
+                       "ownerInfo": owner_name, "comments": comments_dict,
+                       "form": form, "dogBreed": dog_breed})
 
 
 @login_required
@@ -121,15 +122,16 @@ def profile(request, username):
 def dogprofile(request, dogid):
     dog = Dog.objects.get(dog_id=dogid)
     img = {"dogID": "/media/" + str(dog.picture)}
-    dogName = {'dogName': dog.name}
-    ownerName = {'ownerName': dog.owner}
+    dog_name = {'dogName': dog.name}
+    dog_breed = {'dogName': dog.breed}
+    owner_name = {'ownerName': dog.owner}
     score = {"dog.average": dog.average}
     comments = Rating.objects.all().filter(dog=dog).exclude(text='')
-    commentsDict = {}
+    comments_dict = {}
     for comment in comments:
-        commentsDict[comment.user] = comment.text
+        comments_dict[comment.user] = comment.text
 
     return render(request, 'dogprofile.html',
-                  {"dogInfo": dogName, "outputImg": img,
-                   "ownerInfo": ownerName, "comments": commentsDict,
-                   "score": score})
+                  {"dogInfo": dog_name, "outputImg": img,
+                   "ownerInfo": owner_name, "comments": comments_dict,
+                   "score": score, "dogBreed": dog_breed})
