@@ -27,14 +27,15 @@ def vote(request):
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
-            dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
+            dog = Dog.objects.get(dog_id=current_user.current_dog_id)
             dog.score += float(request.POST["slider_value"])
             dog.votes += 1
             dog.average = dog.score / dog.votes
             dog.save()
 
-            current_user.last_voted_id += 1
-            current_user.save()
+            if current_user.current_dog_id == current_user.last_voted_id + 1:
+                current_user.last_voted_id += 1
+                current_user.save()
 
             rating = form.save(commit=False)
             rating.dog = dog
@@ -50,23 +51,21 @@ def vote(request):
             doggies = Dog.objects.exclude(owner=current_user).filter(breed=request.GET['breedFilter'])
         else:
             doggies = Dog.objects.exclude(owner=current_user)
-        print(len(doggies))
         vote = False
         for dog in doggies:
-            print(dog.breed, dog.id)
             if Rating.objects.all().filter(dog=dog, user=current_user).count() == 0:
                 vote = True
                 break
         if doggies.count() == 0 or vote is False:
             response = render_to_response("nodog.html")
             return render(request, 'nodog.html')
-
-        print(current_user.last_voted_id)
         if len(request.GET) != 0:
             dog = Dog.objects.filter(dog_id__gte=current_user.last_voted_id + 1, breed=request.GET['breedFilter'])[:1].get()
         else:
             dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
-        
+
+        current_user.current_dog_id = dog.dog_id
+        current_user.save()
         img = {"dogID": "/media/" + str(dog.picture)}
         dogName = {"dogName": dog.name}
         ownerName = {"ownerName": dog.owner}
@@ -75,6 +74,7 @@ def vote(request):
         for comment in comments:
             commentsDict[comment.user] = comment.text
 
+        
         return render(request, 'vote.html',
                       {"outputImg": img, "dogInfo": dogName,
                        "ownerInfo": ownerName, "comments": commentsDict,
