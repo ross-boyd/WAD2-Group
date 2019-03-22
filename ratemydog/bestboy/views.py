@@ -27,14 +27,15 @@ def vote(request):
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
-            dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
+            dog = Dog.objects.get(dog_id=current_user.current_dog_id)
             dog.score += float(request.POST["slider_value"])
             dog.votes += 1
             dog.average = dog.score / dog.votes
             dog.save()
 
-            current_user.last_voted_id += 1
-            current_user.save()
+            if current_user.current_dog_id == current_user.last_voted_id + 1:
+                current_user.last_voted_id += 1
+                current_user.save()
 
             rating = form.save(commit=False)
             rating.dog = dog
@@ -46,7 +47,16 @@ def vote(request):
 
     else:
         form = RatingForm()
-        doggies = Dog.objects.exclude(owner=current_user)
+        form.fields['breedFilter'].initial = current_user.current_breed
+
+        if len(request.GET) != 0:
+            current_user.current_breed = request.GET['breedFilter']
+
+        if current_user.current_breed != 0:
+            doggies = Dog.objects.exclude(owner=current_user).filter(breed=current_user.current_breed)
+        else:
+            doggies = Dog.objects.exclude(owner=current_user)
+
         vote = False
         for dog in doggies:
             if Rating.objects.all().filter(dog=dog, user=current_user).count() == 0:
@@ -54,22 +64,33 @@ def vote(request):
                 break
         if doggies.count() == 0 or vote is False:
             response = render_to_response("nodog.html")
-            return render(request, 'nodog.html')
+            if current_user.current_breed != 0:
+                current_user.current_breed = 0
+                current_user.save()
+                return render(request, 'nobreed.html')
+            else:
+                return render(request, 'nodog.html')
+                
+        if current_user.current_breed != 0:
+            dog = Dog.objects.filter(dog_id__gte=current_user.last_voted_id + 1, breed=current_user.current_breed)[:1].get()
+        else:
+            dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
 
-        dog = Dog.objects.get(dog_id=current_user.last_voted_id + 1)
+        current_user.current_dog_id = dog.dog_id
+        current_user.save()
         img = {"dogID": "/media/" + str(dog.picture)}
-        dog_name = {"dogName": dog.name}
-        owner_name = {"ownerName": dog.owner}
-        dog_breed = {"dogBreed": dog.breed}
+        dogName = {"dogName": dog.name}
+        ownerName = {"ownerName": dog.owner}
         comments = Rating.objects.all().filter(dog=dog).exclude(text="")
-        comments_dict = {}
+        commentsDict = {}
         for comment in comments:
-            comments_dict[comment.user] = comment.text
+            commentsDict[comment.user] = comment.text
 
+        
         return render(request, 'vote.html',
-                      {"outputImg": img, "dogInfo": dog_name,
-                       "ownerInfo": owner_name, "comments": comments_dict,
-                       "form": form, "dogBreed": dog_breed})
+                      {"outputImg": img, "dogInfo": dogName,
+                       "ownerInfo": ownerName, "comments": commentsDict,
+                       "form": form})
 
 
 @login_required
@@ -122,16 +143,15 @@ def profile(request, username):
 def dogprofile(request, dogid):
     dog = Dog.objects.get(dog_id=dogid)
     img = {"dogID": "/media/" + str(dog.picture)}
-    dog_name = {'dogName': dog.name}
-    dog_breed = {'dogName': dog.breed}
-    owner_name = {'ownerName': dog.owner}
+    dogName = {'dogName': dog.name}
+    ownerName = {'ownerName': dog.owner}
     score = {"dog.average": dog.average}
     comments = Rating.objects.all().filter(dog=dog).exclude(text='')
-    comments_dict = {}
+    commentsDict = {}
     for comment in comments:
-        comments_dict[comment.user] = comment.text
+        commentsDict[comment.user] = comment.text
 
     return render(request, 'dogprofile.html',
-                  {"dogInfo": dog_name, "outputImg": img,
-                   "ownerInfo": owner_name, "comments": comments_dict,
-                   "score": score, "dogBreed": dog_breed})
+                  {"dogInfo": dogName, "outputImg": img,
+                   "ownerInfo": ownerName, "comments": commentsDict,
+                   "score": score})

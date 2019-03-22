@@ -25,10 +25,25 @@ def get_names():
 
 
 def get_comments():
+    COMMENTS = []
     with open('comments.txt', 'r') as f:
-        comments = []
         for line in f:
-            comments.append(line)
-        
-    return comments
-        
+            COMMENTS.append(line)
+
+    return COMMENTS
+
+
+def get_valid_breeds(Dog):
+    BREED_CHOICES = []
+    BREED_CHOICES.append((str(1), "Any"))
+    with open("breeds.txt", "r") as f:
+        counter = 1
+        while True:
+            line = f.readline().strip()
+            if not line:
+                break
+            if Dog.objects.all().filter(breed=counter).count() != 0:
+                BREED_CHOICES.append((str(counter), str(line)))
+            counter += 1
+
+    return BREED_CHOICES
