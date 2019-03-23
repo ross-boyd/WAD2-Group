@@ -110,7 +110,7 @@ def profile(request, username):
     favourite_context = {}
     for i in range(10):
         try:
-            top_context[str(favourite[i].id)] = "/media/"+str(favourite[i].picture)
+            favourite_context[str(favourite[i].id)] = "/media/"+str(favourite[i].picture)
         except:
             break
 
